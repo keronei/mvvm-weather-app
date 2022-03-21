@@ -4,6 +4,7 @@ plugins {
     id(BuildPlugins.kotlinParcelizePlugin)
     id(BuildPlugins.ktlintPlugin)
     id(BuildPlugins.jacocoAndroid)
+    id(BuildPlugins.kotlinKapt)
 }
 
 jacoco {
@@ -46,6 +47,30 @@ android {
         implementation(Libraries.constraintLayout)
         implementation(Libraries.materialComponents)
 
+        //Hilt - DI
+        implementation(Libraries.daggerHilt)
+        implementation(Libraries.hiltCompiler)
+
+        //Room
+        implementation(Libraries.room)
+        kapt(Libraries.room_compiler)
+        androidTestImplementation(Libraries.room_testing)
+
+        //Timber
+        implementation(Libraries.timber)
+
+        //Network
+        implementation(Libraries.retrofit)
+        implementation(Libraries.gson)
+        implementation(platform(Libraries.okhttp3BOM))
+        implementation(Libraries.okhttp3)
+        implementation(Libraries.loggingInterceptor)
+
+        //Coroutines
+        implementation(Libraries.coroutines)
+        implementation(Libraries.coroutinesAndroid)
+
+        //Testing
         androidTestImplementation(TestLibraries.testRunner)
         androidTestImplementation(TestLibraries.espresso)
         androidTestImplementation(TestLibraries.annotation)

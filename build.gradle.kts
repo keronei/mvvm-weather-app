@@ -34,7 +34,9 @@ buildscript {
     val jacocoVersion by extra("0.2")
 
     dependencies {
+        classpath(Libraries.toolsBuildGradle)
         classpath("com.hiya:jacoco-android:$jacocoVersion")
+        classpath(Libraries.hiltGradlePlugin)
     }
 }
 

@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ke.co.appslab.gradleplugins
+package com.keronei.weatherapp.application
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.keronei.weatherapp.R
 
 /**
  *  Main Activity which is the Launcher Activity
