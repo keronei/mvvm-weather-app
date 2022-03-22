@@ -6,6 +6,7 @@ plugins {
     id(BuildPlugins.jacocoAndroid)
     id(BuildPlugins.kotlinKapt)
     id(BuildPlugins.hiltPlugin)
+    id(BuildPlugins.detektPlugin)
 }
 
 jacoco {

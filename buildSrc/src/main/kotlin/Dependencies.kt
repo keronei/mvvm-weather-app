@@ -30,7 +30,8 @@ object Versions {
 
     //DI - Hilt
     const val hilt_version = "2.38.1"
-    const val hilt_viewmodel = "1.0.0"
+    const val hilt_viewmodel = "1.0.0-alpha03"
+    const val hilt_compiler = "1.0.0"
 
     //Network
     const val retrofit = "2.9.0"
@@ -79,7 +80,7 @@ object Libraries {
     const val daggerHilt = "com.google.dagger:hilt-android:${Versions.hilt_version}"
     const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt_version}"
     const val hiltViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hilt_viewmodel}"
-    const val hiltAndroidxCompiler = "androidx.hilt:hilt-compiler:${Versions.hilt_viewmodel}"
+    const val hiltAndroidxCompiler = "androidx.hilt:hilt-compiler:${Versions.hilt_compiler}"
 
     //Network
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
