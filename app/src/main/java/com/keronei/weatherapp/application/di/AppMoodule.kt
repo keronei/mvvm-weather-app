@@ -1,13 +1,15 @@
 package com.keronei.weatherapp.application.di
 
+import android.content.Context
 import com.google.gson.GsonBuilder
 import com.keronei.weatherapp.application.Constants.BASE_URL
+import com.keronei.weatherapp.application.preference.DataStoreManager
 import com.keronei.weatherapp.data.remote.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import okhttp3.OkHttp
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -16,6 +18,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Provides
+    @Singleton
+    fun providesDataStoreInstance(@ApplicationContext context: Context): DataStoreManager {
+        return DataStoreManager(context)
+    }
 
     @Singleton
     @Provides

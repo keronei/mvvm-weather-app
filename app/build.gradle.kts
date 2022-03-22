@@ -49,36 +49,41 @@ android {
         implementation(Libraries.constraintLayout)
         implementation(Libraries.materialComponents)
 
-        //Hilt - DI
+        // DataStore
+        implementation(Libraries.dataStore)
+
+        // Easy permissions
+        implementation(Libraries.easyPermissions)
+
+        // Hilt - DI
         implementation(Libraries.daggerHilt)
         kapt(Libraries.hiltCompiler)
         implementation(Libraries.hiltViewModel)
         kapt(Libraries.hiltAndroidxCompiler)
 
-        //Room
+        // Room
         implementation(Libraries.room)
         kapt(Libraries.room_compiler)
         androidTestImplementation(Libraries.room_testing)
 
-        //Timber
+        // Timber
         implementation(Libraries.timber)
 
-        //Network
+        // Network
         implementation(Libraries.retrofit)
         implementation(Libraries.gson)
         implementation(platform(Libraries.okhttp3BOM))
         implementation(Libraries.okhttp3)
         implementation(Libraries.loggingInterceptor)
 
-        //Coroutines
+        // Coroutines
         implementation(Libraries.coroutines)
         implementation(Libraries.coroutinesAndroid)
 
-        //Testing
+        // Testing
         androidTestImplementation(TestLibraries.testRunner)
         androidTestImplementation(TestLibraries.espresso)
         androidTestImplementation(TestLibraries.annotation)
-
         testImplementation(TestLibraries.junit4)
     }
 }

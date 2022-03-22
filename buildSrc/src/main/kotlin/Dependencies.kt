@@ -6,6 +6,10 @@ object Versions {
     const val constraintLayout = "2.1.3"
     const val ktx = "1.7.0"
     const val material = "1.6.0-alpha02"
+    const val dataStore = "1.0.0"
+
+    //EasyPermissions
+    const val easyPermission = "3.0.0"
 
     //Coroutines
     const val coroutines = "1.3.9"
@@ -69,6 +73,12 @@ object Libraries {
     const val ktxCore = "androidx.core:core-ktx:${Versions.ktx}"
     const val materialComponents = "com.google.android.material:material:${Versions.material}"
     const val toolsBuildGradle = "com.android.tools.build:gradle:${Versions.gradlePlugin}"
+
+    //DataStore
+    const val dataStore = "androidx.datastore:datastore-preferences:${Versions.dataStore}"
+
+    //Easy Permissions
+    const val easyPermissions = "pub.devrel:easypermissions:${Versions.easyPermission}"
 
     //Room
     const val room = "androidx.room:room-ktx:${Versions.room_version}"
