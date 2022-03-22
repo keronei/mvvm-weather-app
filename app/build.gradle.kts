@@ -5,6 +5,7 @@ plugins {
     id(BuildPlugins.ktlintPlugin)
     id(BuildPlugins.jacocoAndroid)
     id(BuildPlugins.kotlinKapt)
+    id(BuildPlugins.hiltPlugin)
 }
 
 jacoco {
@@ -49,7 +50,9 @@ android {
 
         //Hilt - DI
         implementation(Libraries.daggerHilt)
-        implementation(Libraries.hiltCompiler)
+        kapt(Libraries.hiltCompiler)
+        implementation(Libraries.hiltViewModel)
+        kapt(Libraries.hiltAndroidxCompiler)
 
         //Room
         implementation(Libraries.room)
