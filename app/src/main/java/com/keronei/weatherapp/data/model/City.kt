@@ -2,6 +2,7 @@ package com.keronei.weatherapp.data.model
 
 import androidx.room.Entity
 import android.os.Parcelable
+import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
 /***
@@ -11,6 +12,7 @@ import kotlinx.parcelize.Parcelize
 
 @Entity
 data class CityEntity (
+    @PrimaryKey
     val id: Int,
     val name: String,
     val lon: Double,

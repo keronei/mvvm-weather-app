@@ -26,6 +26,12 @@ android {
         versionCode = AndroidSdk.versionCode
         versionName = AndroidSdk.versionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += mapOf("room.schemaLocation" to "$projectDir/schemas")
+            }
+        }
     }
 
     testOptions {
@@ -36,10 +42,27 @@ android {
         }
     }
 
+    sourceSets {
+        getByName("androidTest").assets.srcDir("$projectDir/schemas")
+    }
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
@@ -48,6 +71,8 @@ android {
         implementation(Libraries.appCompat)
         implementation(Libraries.constraintLayout)
         implementation(Libraries.materialComponents)
+        implementation(Libraries.activityKtx)
+        implementation(Libraries.fragmentKtx)
 
         // DataStore
         implementation(Libraries.dataStore)
@@ -83,7 +108,9 @@ android {
         // Testing
         androidTestImplementation(TestLibraries.testRunner)
         androidTestImplementation(TestLibraries.espresso)
-        androidTestImplementation(TestLibraries.annotation)
         testImplementation(TestLibraries.junit4)
+        implementation(TestLibraries.ext_test_junit4)
+        implementation(TestLibraries.core_testing)
     }
 }
+

@@ -16,17 +16,38 @@
 package com.keronei.weatherapp.application
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.keronei.weatherapp.R
+import com.keronei.weatherapp.presentation.viewmodel.CitiesViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 /**
  *  Main Activity which is the Launcher Activity
  */
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    private val citiesViewModel: CitiesViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        lifecycleScope.launch {
+            citiesViewModel.cities.collect { cities ->
+                Timber.d("Queried cities size = ${cities.size}")
+            }
+
+        }
     }
 }
