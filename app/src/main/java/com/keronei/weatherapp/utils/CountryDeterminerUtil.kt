@@ -54,6 +54,7 @@ internal object CountryHelper {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                return null
             }
         } else {
 

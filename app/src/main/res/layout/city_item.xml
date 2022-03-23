@@ -13,22 +13,25 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/colorAccent"
-        app:cardCornerRadius="6dp"
         android:layout_margin="6dp"
-        android:elevation="4dp">
+        android:elevation="4dp"
+        app:cardBackgroundColor="@color/colorAccent"
+        app:cardCornerRadius="6dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:paddingStart="@dimen/dimen_10_dp"
+            android:paddingEnd="@dimen/dimen_10_dp"
+            android:paddingBottom="@dimen/dimen_20_dp">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/name"
-                style="@style/TextAppearance.AppCompat.Headline"
+                style="@style/TextAppearance.MaterialComponents.Headline5"
                 android:layout_width="0dp"
-                android:text="@{city.name}"
                 android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/dimen_20_dp"
+                android:text="@{city.name}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/temperature"
                 app:layout_constraintHorizontal_weight="4"
@@ -40,26 +43,28 @@
                 android:id="@+id/temperature"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_20_dp"
                 android:gravity="end"
                 android:text="@string/empty_temperature"
-                app:layout_constraintBottom_toBottomOf="@id/name"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/icon"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@id/name"
-                app:layout_constraintTop_toTopOf="@id/name"
-                tools:text="28º"
 
-                />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="28º" />
 
             <ImageView
                 android:id="@+id/icon"
                 android:layout_width="34dp"
                 android:layout_height="34dp"
+                android:layout_marginTop="@dimen/dimen_20_dp"
                 android:contentDescription="@string/status_icon"
-                app:layout_constraintBottom_toBottomOf="@id/temperature"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintTop_toTopOf="@id/temperature"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/a02d" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

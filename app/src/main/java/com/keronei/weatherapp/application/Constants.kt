@@ -9,5 +9,5 @@ object Constants {
     //String constants
     const val COUNTRY = "user_country"
 
-    const val CITIES_JSON_FILE_NAME = "city.list.min.json"
+    const val DATABASE_NAME = "weatherappdatabase.db"
  }

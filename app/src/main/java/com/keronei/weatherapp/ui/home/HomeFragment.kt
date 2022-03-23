@@ -10,21 +10,28 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.keronei.weatherapp.R
+import com.keronei.weatherapp.application.preference.DataStoreManager
 import com.keronei.weatherapp.databinding.HomeFragmentBinding
 import com.keronei.weatherapp.presentation.CityPresentation
 import com.keronei.weatherapp.presentation.viewmodel.CitiesViewModel
 import com.keronei.weatherapp.ui.viewstate.ViewState
+import com.keronei.weatherapp.utils.CountryHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private val citiesViewModel: CitiesViewModel by activityViewModels()
 
-    lateinit var citiesRecyclerAdapter: CitiesRecyclerAdapter
+    private lateinit var citiesRecyclerAdapter: CitiesRecyclerAdapter
 
-    lateinit var homeFragmentBinding: HomeFragmentBinding
+    private lateinit var homeFragmentBinding: HomeFragmentBinding
+
+    @Inject
+    lateinit var dataStoreManager: DataStoreManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,9 +46,17 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        attemptToEstablishCountry()
+
         setupCitiesRecycler()
 
         observeCitiesList()
+    }
+
+    private fun attemptToEstablishCountry() {
+        val country = CountryHelper.getCountry(requireContext(), dataStoreManager)
+
+        Timber.d("Established country -> ${country.toString()}")
     }
 
     private fun setupCitiesRecycler() {

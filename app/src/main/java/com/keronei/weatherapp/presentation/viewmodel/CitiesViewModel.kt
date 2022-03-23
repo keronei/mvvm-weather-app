@@ -10,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,16 +25,14 @@ class CitiesViewModel @Inject constructor(private val citiesRepository: CitiesRe
 
     init {
         viewModelScope.launch {
-            val foundCities = async { citiesRepository.queryLimitedCitiesCount(20) }
+            citiesRepository.queryLimitedCitiesCount(20).collect { citiesObject ->
+                val citiesAsPresentationWithoutData =
+                    CityObjEntityToCityPresentationWithoutDataMapper().mapList(
+                        citiesObject
+                    )
+                _cities.emit(ViewState.Success(citiesAsPresentationWithoutData))
+            }
 
-            val citiesAsEntitiesWithoutData = foundCities.await().first()
-
-            val citiesAsPresentationWithoutData =
-                CityObjEntityToCityPresentationWithoutDataMapper().mapList(
-                    citiesAsEntitiesWithoutData
-                )
-
-            _cities.emit(ViewState.Success(citiesAsPresentationWithoutData))
         }
     }
 }
