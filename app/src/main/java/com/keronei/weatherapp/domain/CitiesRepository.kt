@@ -9,5 +9,5 @@ interface CitiesRepository {
 
     fun queryAllCities(): Flow<List<CityObjEntity>>
 
-    fun queryLimitedCitiesCount(count: Int): Flow<List<CityObjEntity>>
+    fun queryLimitedCitiesCount(count: Int, country : String): Flow<List<CityObjEntity>>
 }

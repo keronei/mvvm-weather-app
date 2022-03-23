@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,9 +24,11 @@ class CitiesViewModel @Inject constructor(private val citiesRepository: CitiesRe
 
     val cities: StateFlow<ViewState> = _cities
 
-    init {
+    fun loadFirstTwentyCitiesFromCountry(country : String) {
         viewModelScope.launch {
-            citiesRepository.queryLimitedCitiesCount(20).collect { citiesObject ->
+            citiesRepository.queryLimitedCitiesCount(20,
+                country.uppercase(Locale.getDefault())
+            ).collect { citiesObject ->
                 val citiesAsPresentationWithoutData =
                     CityObjEntityToCityPresentationWithoutDataMapper().mapList(
                         citiesObject

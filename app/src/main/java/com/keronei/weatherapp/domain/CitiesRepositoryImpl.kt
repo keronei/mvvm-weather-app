@@ -9,5 +9,5 @@ class CitiesRepositoryImpl(private val cityDao: CityDao) : CitiesRepository {
 
     override fun queryAllCities() = cityDao.queryAllCities()
 
-    override fun queryLimitedCitiesCount(count: Int) = cityDao.queryLimitedCitiesCount(count)
+    override fun queryLimitedCitiesCount(count: Int, country : String) = cityDao.queryLimitedCitiesCount(count, country)
 }

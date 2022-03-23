@@ -55,8 +55,8 @@ class HomeFragment : Fragment() {
 
     private fun attemptToEstablishCountry() {
         val country = CountryHelper.getCountry(requireContext(), dataStoreManager)
-
         Timber.d("Established country -> ${country.toString()}")
+        citiesViewModel.loadFirstTwentyCitiesFromCountry(country ?: "")
     }
 
     private fun setupCitiesRecycler() {
