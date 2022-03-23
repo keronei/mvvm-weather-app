@@ -10,6 +10,8 @@ object Versions {
     const val ext_junit = "1.1.3"
     const val lifecycle = "2.0.0"
     const val activityKtx = "1.3.1"
+    const val navigationFragment = "2.3.5"
+
 
 
     // EasyPermissions
@@ -79,6 +81,8 @@ object Libraries {
     const val toolsBuildGradle = "com.android.tools.build:gradle:${Versions.gradlePlugin}"
     const val activityKtx = "androidx.activity:activity-ktx:${Versions.activityKtx}"
     const val fragmentKtx = "androidx.fragment:fragment-ktx:${Versions.activityKtx}"
+    const val navigationFragment = "androidx.navigation:navigation-fragment-ktx:${Versions.navigationFragment}"
+
 
     // DataStore
     const val dataStore = "androidx.datastore:datastore-preferences:${Versions.dataStore}"

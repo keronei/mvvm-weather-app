@@ -7,7 +7,6 @@ import com.keronei.weatherapp.data.local.WeatherAppDatabase
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

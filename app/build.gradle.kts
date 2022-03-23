@@ -55,6 +55,13 @@ android {
         jvmTarget = "1.8"
     }
 
+    buildFeatures {
+        viewBinding = true
+    }
+
+    dataBinding {
+        android.buildFeatures.dataBinding = true
+    }
 
     buildTypes {
         getByName("release") {
@@ -73,6 +80,7 @@ android {
         implementation(Libraries.materialComponents)
         implementation(Libraries.activityKtx)
         implementation(Libraries.fragmentKtx)
+        implementation(Libraries.navigationFragment)
 
         // DataStore
         implementation(Libraries.dataStore)
@@ -112,5 +120,10 @@ android {
         implementation(TestLibraries.ext_test_junit4)
         implementation(TestLibraries.core_testing)
     }
+}
+dependencies {
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
 }
 

@@ -20,6 +20,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.keronei.weatherapp.R
+import com.keronei.weatherapp.databinding.ActivityMainBinding
 import com.keronei.weatherapp.presentation.viewmodel.CitiesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -33,21 +34,12 @@ import timber.log.Timber
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val citiesViewModel: CitiesViewModel by viewModels()
+    lateinit var activityMainViewBinding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        activityMainViewBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(activityMainViewBinding.root)
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        lifecycleScope.launch {
-            citiesViewModel.cities.collect { cities ->
-                Timber.d("Queried cities size = ${cities.size}")
-            }
-
-        }
-    }
 }

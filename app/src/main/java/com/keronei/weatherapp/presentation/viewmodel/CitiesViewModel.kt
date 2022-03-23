@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.keronei.weatherapp.data.model.CityObjEntity
 import com.keronei.weatherapp.domain.CitiesRepository
+import com.keronei.weatherapp.domain.mappers.CityObjEntityToCityPresentationWithoutDataMapper
+import com.keronei.weatherapp.ui.viewstate.ViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,14 +18,22 @@ import javax.inject.Inject
 class CitiesViewModel @Inject constructor(private val citiesRepository: CitiesRepository) :
     ViewModel() {
 
-    private val _cities = MutableStateFlow<List<CityObjEntity>>(value = emptyList())
+    private val _cities = MutableStateFlow<ViewState>(value = ViewState.Empty)
 
-    val cities: StateFlow<List<CityObjEntity>> = _cities
+    val cities: StateFlow<ViewState> = _cities
 
     init {
         viewModelScope.launch {
             val foundCities = async { citiesRepository.queryLimitedCitiesCount(20) }
-            _cities.emit(foundCities.await().first())
+
+            val citiesAsEntitiesWithoutData = foundCities.await().first()
+
+            val citiesAsPresentationWithoutData =
+                CityObjEntityToCityPresentationWithoutDataMapper().mapList(
+                    citiesAsEntitiesWithoutData
+                )
+
+            _cities.emit(ViewState.Success(citiesAsPresentationWithoutData))
         }
     }
 }
