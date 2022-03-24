@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import androidx.room.Update
-import com.keronei.weatherapp.data.model.City
 import com.keronei.weatherapp.data.model.CityObjEntity
 import kotlinx.coroutines.flow.Flow
 

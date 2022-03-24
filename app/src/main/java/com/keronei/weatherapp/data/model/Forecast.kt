@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Forecast (
+data class Forecast(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     @Embedded

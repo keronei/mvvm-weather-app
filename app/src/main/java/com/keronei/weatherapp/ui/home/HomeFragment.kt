@@ -15,10 +15,9 @@ import com.keronei.weatherapp.databinding.HomeFragmentBinding
 import com.keronei.weatherapp.presentation.CityPresentation
 import com.keronei.weatherapp.presentation.viewmodel.CitiesViewModel
 import com.keronei.weatherapp.ui.viewstate.ViewState
-import com.keronei.weatherapp.utils.CountryHelper
+import com.keronei.weatherapp.utils.CountryDeterminerUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -34,7 +33,8 @@ class HomeFragment : Fragment() {
     lateinit var dataStoreManager: DataStoreManager
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         homeFragmentBinding =
@@ -54,8 +54,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun attemptToEstablishCountry() {
-        val country = CountryHelper.getCountry(requireContext(), dataStoreManager)
-        Timber.d("Established country -> ${country.toString()}")
+        val country = CountryDeterminerUtil.getCountry(requireContext(), dataStoreManager)
         citiesViewModel.loadFirstTwentyCitiesFromCountry(country ?: "")
     }
 
@@ -76,23 +75,17 @@ class HomeFragment : Fragment() {
             when (viewState) {
                 ViewState.Empty -> {}
                 is ViewState.Error -> {
-
                 }
                 ViewState.Loading -> {
-
                 }
                 is ViewState.Success -> {
                     onCitiesListLoaded(viewState.citiesPresentations)
-
                 }
             }
-
         }
     }
 
     private fun onCitiesListLoaded(citiesPresentations: List<CityPresentation>) {
         citiesRecyclerAdapter.submitList(citiesPresentations)
     }
-
-
 }

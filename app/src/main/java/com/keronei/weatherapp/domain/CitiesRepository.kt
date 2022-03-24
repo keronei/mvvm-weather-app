@@ -5,9 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface CitiesRepository {
 
-    suspend fun addCity(cityObjEntity: CityObjEntity) : Long
+    suspend fun addCity(cityObjEntity: CityObjEntity): Long
 
     fun queryAllCities(): Flow<List<CityObjEntity>>
 
-    fun queryLimitedCitiesCount(count: Int, country : String): Flow<List<CityObjEntity>>
+    fun queryLimitedCitiesCount(count: Int, country: String): Flow<List<CityObjEntity>>
 }

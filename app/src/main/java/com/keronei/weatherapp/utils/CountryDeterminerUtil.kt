@@ -13,7 +13,7 @@ import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import java.util.*
 
-internal object CountryHelper {
+internal object CountryDeterminerUtil {
     @SuppressLint("MissingPermission") // Has checks that's not reflected.
     fun getCountry(context: Context, dataStoreManager: DataStoreManager): String? {
 
@@ -90,6 +90,7 @@ internal object CountryHelper {
                 }
             }
         } catch (e: Exception) {
+            e.printStackTrace()
         }
         return null
     }

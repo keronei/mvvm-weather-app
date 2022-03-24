@@ -9,10 +9,10 @@ import com.keronei.weatherapp.data.model.CityObjEntity
 
 @Database(
     entities = [CityObjEntity::class], version = 1, exportSchema = true,
-    //autoMigrations = [AutoMigration(from = 1, to = 2)]
+    // autoMigrations = [AutoMigration(from = 1, to = 2)]
 )
 abstract class WeatherAppDatabase : RoomDatabase() {
-    //abstract fun forecastDao(): ForecastDao
+    // abstract fun forecastDao(): ForecastDao
 
     abstract fun cityDao(): CityDao
 
@@ -35,6 +35,4 @@ abstract class WeatherAppDatabase : RoomDatabase() {
             }
         }
     }
-
-
 }

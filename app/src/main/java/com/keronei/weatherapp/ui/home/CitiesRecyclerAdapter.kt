@@ -22,9 +22,7 @@ class CitiesRecyclerAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): RegionsViewHolder {
-        return RegionsViewHolder.from(parent)
-    }
+    ): RegionsViewHolder = RegionsViewHolder.from(parent)
 
     override fun onBindViewHolder(holder: RegionsViewHolder, position: Int) {
         val region = getItem(position)
@@ -44,18 +42,18 @@ class CitiesRecyclerAdapter(
         val list = mutableListOf<CityPresentation>()
 
         if (!query.isNullOrEmpty()) {
-            list.addAll(untouchedList.filter { item ->
-                item.name.lowercase(Locale.getDefault())
-                    .contains(query.toString().lowercase(Locale.getDefault()))
-
-            })
+            list.addAll(
+                untouchedList.filter { item ->
+                    item.name.lowercase(Locale.getDefault())
+                        .contains(query.toString().lowercase(Locale.getDefault()))
+                }
+            )
         } else {
             list.addAll(untouchedList)
         }
 
         submitList(list)
     }
-
 
     class RegionsViewHolder(val binding: CityItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -92,24 +90,17 @@ class CitiesRecyclerAdapter(
                 return RegionsViewHolder(itemFilmBinding)
             }
         }
-
-
     }
 
     class FilmDiffUtil : DiffUtil.ItemCallback<CityPresentation>() {
         override fun areItemsTheSame(
             oldItem: CityPresentation,
             newItem: CityPresentation
-        ): Boolean {
-            return oldItem.id == newItem.id
-        }
+        ): Boolean = oldItem.id == newItem.id
 
         override fun areContentsTheSame(
             oldItem: CityPresentation,
             newItem: CityPresentation
-        ): Boolean {
-            return oldItem == newItem
-        }
-
+        ): Boolean = oldItem == newItem
     }
 }

@@ -13,5 +13,5 @@ data class CityObjEntity(
     val id: Int,
     val name: String,
     val state: String,
-    val favourite : Boolean = false
+    val favourite: Boolean = false
 )

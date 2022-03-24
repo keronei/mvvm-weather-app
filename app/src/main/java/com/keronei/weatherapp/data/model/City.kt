@@ -11,20 +11,19 @@ import kotlinx.parcelize.Parcelize
  */
 
 @Entity
-data class CityEntity (
+data class CityEntity(
     @PrimaryKey
     val id: Int,
     val name: String,
     val lon: Double,
     val lat: Double,
     val country: String,
-    val lastUpdateTimeStamp : Long,
+    val lastUpdateTimeStamp: Long,
     val isFavourite: Boolean
 )
 
-
 @Parcelize
-data class City (
+data class City(
     val id: Int,
     val name: String,
     val lon: Double,

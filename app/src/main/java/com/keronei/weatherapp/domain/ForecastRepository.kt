@@ -1,4 +1,3 @@
 package com.keronei.weatherapp.domain
 
-interface ForecastRepository {
-}
+interface ForecastRepository

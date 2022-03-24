@@ -21,30 +21,23 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesDataStoreInstance(@ApplicationContext context: Context): DataStoreManager {
-        return DataStoreManager(context)
-    }
+    fun providesDataStoreInstance(@ApplicationContext context: Context): DataStoreManager =
+        DataStoreManager(context)
 
     @Singleton
     @Provides
-    fun providesOkHttp3Instance(): OkHttpClient {
-        return OkHttpClient()
-    }
+    fun providesOkHttp3Instance(): OkHttpClient = OkHttpClient()
 
     @Singleton
     @Provides
-    fun providesRetrofitInstance(okHttpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
-            .client(okHttpClient)
-            .baseUrl(BASE_URL)
-            .addConverterFactory(
-                GsonConverterFactory.create(GsonBuilder().create())
-            ).build()
-    }
+    fun providesRetrofitInstance(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+        .client(okHttpClient)
+        .baseUrl(BASE_URL)
+        .addConverterFactory(
+            GsonConverterFactory.create(GsonBuilder().create())
+        ).build()
 
     @Singleton
     @Provides
-    fun providesApiService(retrofit: Retrofit) : ApiService{
-       return retrofit.create(ApiService::class.java)
-    }
+    fun providesApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
 }

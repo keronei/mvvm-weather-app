@@ -27,9 +27,8 @@ class CityDaoTests {
         cityDao = weatherAppDatabase.cityDao()
     }
 
-
     @Test
-    fun on_init_complete_the_db_is_populated_with_cities(){
+    fun on_init_complete_the_db_is_populated_with_cities() {
         return runBlocking {
             val expect10Cities = cityDao.queryLimitedCitiesCount(10)
 
@@ -38,6 +37,4 @@ class CityDaoTests {
             )
         }
     }
-
-
 }

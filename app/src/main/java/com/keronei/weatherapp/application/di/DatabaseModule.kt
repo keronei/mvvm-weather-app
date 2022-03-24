@@ -18,9 +18,7 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun providesCoroutineScope(): CoroutineScope {
-        return CoroutineScope(SupervisorJob() + Dispatchers.IO)
-    }
+    fun providesCoroutineScope(): CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     @Provides
     @Singleton
@@ -31,5 +29,4 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun providesCitiesDao(weatherAppDatabase: WeatherAppDatabase) = weatherAppDatabase.cityDao()
-
 }

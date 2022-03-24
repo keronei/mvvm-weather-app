@@ -6,5 +6,5 @@ import retrofit2.http.GET
 
 interface ApiService {
     @GET(ONE_CALL_FORECAST_ENDPOINT)
-    suspend fun getCityWeatherForeCast() : CityForecast
+    suspend fun getCityWeatherForeCast(): CityForecast
 }

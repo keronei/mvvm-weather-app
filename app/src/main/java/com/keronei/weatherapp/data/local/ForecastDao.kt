@@ -8,5 +8,5 @@ import com.keronei.weatherapp.data.model.Forecast
 @Dao
 interface ForecastDao {
     @Insert(onConflict = REPLACE)
-    suspend fun createForecastUpdate(forecast: Forecast) : Long
+    suspend fun createForecastUpdate(forecast: Forecast): Long
 }

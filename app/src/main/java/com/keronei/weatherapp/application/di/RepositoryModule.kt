@@ -15,7 +15,6 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun providesCitiesRepository(cityDao: CityDao): CitiesRepository {
-        return CitiesRepositoryImpl(cityDao)
-    }
+    fun providesCitiesRepository(cityDao: CityDao): CitiesRepository = CitiesRepositoryImpl(cityDao)
+
 }

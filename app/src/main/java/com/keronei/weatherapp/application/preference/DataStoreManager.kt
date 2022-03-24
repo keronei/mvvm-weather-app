@@ -35,9 +35,7 @@ class DataStoreManager(context: Context) {
             }.map { preferences ->
 
                 preferences[booleanPreferencesKey(key)] ?: false
-
             }
-
 
     fun getStringPreference(key: String): Flow<String> = dataStore.data.catch {
         if (it is IOException) {
@@ -47,17 +45,16 @@ class DataStoreManager(context: Context) {
         preference[stringPreferencesKey(key)] ?: ""
     }
 
-
     suspend fun cleanUpPreferenceAtLogOut() {
         dataStore.edit { preferences ->
             preferences.clear()
         }
     }
 
-   suspend fun saveIntPreference(key: String, id: Int) {
-       dataStore.edit { preference ->
-           preference[intPreferencesKey(key)] = id
-       }
+    suspend fun saveIntPreference(key: String, id: Int) {
+        dataStore.edit { preference ->
+            preference[intPreferencesKey(key)] = id
+        }
     }
 
     fun getIntPreference(key: String): Flow<Int> = dataStore.data.catch {
@@ -67,6 +64,4 @@ class DataStoreManager(context: Context) {
     }.map { preference ->
         preference[intPreferencesKey(key)] ?: -1
     }
-
-
 }
