@@ -16,7 +16,7 @@ interface CityDao {
     @Query("SELECT * FROM CityObjEntity ORDER BY id ASC")
     fun queryAllCities(): Flow<List<CityObjEntity>>
 
-    @Query("SELECT * FROM CityObjEntity WHERE favourite = 1 or country LIKE :country || '%' or id > 0 ORDER BY favourite DESC LIMIT :count")
+    @Query("SELECT * FROM CityObjEntity WHERE id > 0 or country LIKE :country || '%' or  favourite = 1 ORDER BY favourite DESC LIMIT :count")
     fun queryLimitedCitiesCount(count: Int, country: String): Flow<List<CityObjEntity>>
 
     @Update(entity = CityObjEntity::class)
