@@ -10,7 +10,7 @@ data class Daily(
     val moonrise: Int,
     val moonset: Int,
     val pop: Double,
-    val pressure: Int,
+    val pressure: Double,
     val rain: Double,
     val sunrise: Int,
     val sunset: Int,

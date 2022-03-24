@@ -13,7 +13,7 @@ import com.keronei.weatherapp.R
 import com.keronei.weatherapp.application.preference.DataStoreManager
 import com.keronei.weatherapp.databinding.HomeFragmentBinding
 import com.keronei.weatherapp.presentation.CityPresentation
-import com.keronei.weatherapp.presentation.viewmodel.CitiesViewModel
+import com.keronei.weatherapp.presentation.viewmodel.MainViewModel
 import com.keronei.weatherapp.ui.viewstate.ViewState
 import com.keronei.weatherapp.utils.CountryDeterminerUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +23,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-    private val citiesViewModel: CitiesViewModel by activityViewModels()
+    private val citiesViewModel: MainViewModel by activityViewModels()
 
     private lateinit var citiesRecyclerAdapter: CitiesRecyclerAdapter
 
@@ -66,6 +66,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun citySelected(cityPresentation: CityPresentation) {
+
+        citiesViewModel.fetchForecastDataForCity(cityPresentation)
+
         Toast.makeText(context, cityPresentation.name, Toast.LENGTH_SHORT).show()
     }
 
@@ -73,10 +76,14 @@ class HomeFragment : Fragment() {
         citiesViewModel.cities.collect { viewState ->
 
             when (viewState) {
-                ViewState.Empty -> {}
+                ViewState.Empty -> {
+
+                }
                 is ViewState.Error -> {
+
                 }
                 ViewState.Loading -> {
+
                 }
                 is ViewState.Success -> {
                     onCitiesListLoaded(viewState.citiesPresentations)

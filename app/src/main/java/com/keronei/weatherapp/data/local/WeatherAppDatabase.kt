@@ -1,18 +1,19 @@
 package com.keronei.weatherapp.data.local
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
 import com.keronei.weatherapp.application.Constants.DATABASE_NAME
 import com.keronei.weatherapp.data.model.CityObjEntity
+import com.keronei.weatherapp.data.model.Forecast
+import com.keronei.weatherapp.data.model.typeconverters.ObjectCollectionConverter
 
 @Database(
-    entities = [CityObjEntity::class], version = 1, exportSchema = true,
-    // autoMigrations = [AutoMigration(from = 1, to = 2)]
+    entities = [CityObjEntity::class, Forecast::class], version = 2, exportSchema = true,
+    autoMigrations = [AutoMigration(from = 1, to = 2)]
 )
+@TypeConverters(ObjectCollectionConverter::class)
 abstract class WeatherAppDatabase : RoomDatabase() {
-    // abstract fun forecastDao(): ForecastDao
+    abstract fun forecastDao(): ForecastDao
 
     abstract fun cityDao(): CityDao
 

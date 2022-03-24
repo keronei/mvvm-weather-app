@@ -1,3 +1,7 @@
+import java.io.File
+import java.io.FileInputStream
+import java.util.*
+
 plugins {
     id(BuildPlugins.androidApplication)
     id(BuildPlugins.kotlinAndroid)
@@ -12,6 +16,11 @@ plugins {
 jacoco {
     toolVersion = Versions.jacoco
 }
+
+val prop = Properties().apply {
+    load(FileInputStream(File(rootProject.rootDir, "keys.properties")))
+}
+val apiKey: String = prop.getProperty("API_KEY")
 
 android {
 
@@ -70,7 +79,15 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+            resValue("string", "apiKey", apiKey)
         }
+        getByName("debug") {
+            isMinifyEnabled = false
+
+            resValue("string", "apiKey", apiKey)
+        }
+
     }
 
     dependencies {

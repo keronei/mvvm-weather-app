@@ -10,4 +10,6 @@ object Constants {
     const val COUNTRY = "user_country"
 
     const val DATABASE_NAME = "weatherappdatabase.db"
+
+    const val DEFAULT_FIELDS_TO_EXCLUDE = "minutely,current"
 }

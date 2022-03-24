@@ -1,6 +1,8 @@
 package com.keronei.weatherapp.application.di
 
 import android.content.Context
+import com.keronei.weatherapp.data.local.CityDao
+import com.keronei.weatherapp.data.local.ForecastDao
 import com.keronei.weatherapp.data.local.WeatherAppDatabase
 import dagger.Module
 import dagger.Provides
@@ -24,9 +26,15 @@ object DatabaseModule {
     @Singleton
     fun provideDatabaseInstance(
         @ApplicationContext context: Context
-    ) = WeatherAppDatabase.buildDatabase(context)
+    ) : WeatherAppDatabase = WeatherAppDatabase.buildDatabase(context)
 
     @Provides
     @Singleton
-    fun providesCitiesDao(weatherAppDatabase: WeatherAppDatabase) = weatherAppDatabase.cityDao()
+    fun providesCitiesDao(weatherAppDatabase: WeatherAppDatabase): CityDao =
+        weatherAppDatabase.cityDao()
+
+    @Provides
+    @Singleton
+    fun providesForecastDao(weatherAppDatabase: WeatherAppDatabase): ForecastDao =
+        weatherAppDatabase.forecastDao()
 }
