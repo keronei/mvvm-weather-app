@@ -2,6 +2,8 @@ package com.keronei.weatherapp.domain
 
 import com.keronei.weatherapp.core.Resource
 import com.keronei.weatherapp.data.local.ForecastDao
+import com.keronei.weatherapp.data.model.CityWithForecast
+import com.keronei.weatherapp.data.model.ForecastUpdate
 import com.keronei.weatherapp.data.remote.NetworkDataSource
 import com.keronei.weatherapp.utils.ConnectivityProvider
 import kotlinx.coroutines.Dispatchers
@@ -23,24 +25,25 @@ class ForecastRepositoryImpl @Inject constructor(
     private val connectivityProvider: ConnectivityProvider
 ) :
     ForecastRepository {
-    override suspend fun fetchCityForecast(lat: Double, lon: Double) =
+    override suspend fun fetchCityForecast(cityWithForecast: CityWithForecast) =
         callbackFlow {
             trySend(Resource.Loading)
 
-            val localData = forecastDao.getForecast(lat, lon)
+            val lat = cityWithForecast.cityObjEntity.coord.lat
+            val lon = cityWithForecast.cityObjEntity.coord.lon
+            val cityId = cityWithForecast.cityObjEntity.id
 
-            val localResource = localData.first()
+            val localResource = cityWithForecast.forecast
 
-            val lastDateTimestamp: Int = if (localResource.isEmpty()) {
+            val lastDateTimestamp: Int = if (localResource == null) {
                 0
             } else {
-                localResource.first().daily.maxByOrNull { day -> day.dt }?.dt ?: 0
+                localResource.daily.maxByOrNull { day -> day.dt }?.dt ?: 0
             }
             val currentTimestamp = Calendar.getInstance().time
 
             val validUntilDate = Date((lastDateTimestamp * 1000L))
 
-            // TODO establish why time is provided in value that needs *1000
             val forecastIsExpired = currentTimestamp.after(validUntilDate)
 
             if (forecastIsExpired) {
@@ -51,10 +54,10 @@ class ForecastRepositoryImpl @Inject constructor(
                     forecastResource.collect { result ->
                         when (result) {
                             is Resource.Failure -> {
-                                if (localResource.isEmpty()) {
+                                if (localResource == null) {
                                     trySend(Resource.Empty)
                                 } else {
-                                    trySend(Resource.Success(localResource.first()))
+                                    trySend(result)
                                 }
                             }
                             Resource.Loading -> {
@@ -62,13 +65,23 @@ class ForecastRepositoryImpl @Inject constructor(
                             }
                             is Resource.Success -> {
                                 // First delete previous update
-                                if (localResource.isNotEmpty()) {
+                                if (localResource != null) {
                                     withContext(Dispatchers.IO) {
-                                        forecastDao.deleteForecast(localResource.first())
+                                        forecastDao.updateForecast(
+                                            ForecastUpdate(
+                                                cityId,
+                                                result.data.alerts,
+                                                result.data.daily,
+                                                result.data.hourly
+                                            )
+                                        )
                                     }
+                                } else {
+                                    // 2. Persist
+                                    result.data.cityId = cityId
+
+                                    forecastDao.createForecastUpdate(result.data)
                                 }
-                                // 2. Persist
-                                forecastDao.createForecastUpdate(result.data)
                                 // 3. Offer from local
                                 forecastDao.getForecast(lat, lon)
                                     .collectLatest { updatedFromLocal ->
@@ -85,17 +98,17 @@ class ForecastRepositoryImpl @Inject constructor(
                     }
 
                 } else {
-                    if (localResource.isEmpty()) {
+                    if (localResource == null) {
                         trySend(Resource.Empty)
                     } else {
-                        trySend(Resource.Outdated(localResource.first()))
+                        trySend(Resource.Outdated(localResource))
                     }
                 }
             } else {
-                if (localResource.isEmpty()) {
+                if (localResource == null) {
                     trySend(Resource.Empty)
                 } else {
-                    trySend(Resource.Outdated(localResource.first()))
+                    trySend(Resource.Outdated(localResource))
                 }
             }
 

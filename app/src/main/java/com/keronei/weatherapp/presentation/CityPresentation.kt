@@ -1,5 +1,7 @@
 package com.keronei.weatherapp.presentation
 
+import com.keronei.weatherapp.data.model.Forecast
+
 data class CityPresentation(
     val id: Int,
     val name: String,
@@ -7,5 +9,6 @@ data class CityPresentation(
     val lon: Double,
     val country: String,
     val temperature: String,
-    val iconName: String
+    val iconName: String,
+    val forecast: Forecast?
 )
