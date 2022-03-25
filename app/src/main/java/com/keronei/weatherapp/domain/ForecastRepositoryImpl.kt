@@ -69,7 +69,7 @@ class ForecastRepositoryImpl @Inject constructor(
                                     withContext(Dispatchers.IO) {
                                         forecastDao.updateForecast(
                                             ForecastUpdate(
-                                                cityId,
+                                                localResource.id,
                                                 result.data.alerts,
                                                 result.data.daily,
                                                 result.data.hourly

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "a66bfa239c2fefeb0826bed648a344fb",
+    "identityHash": "bfdb741904175888b550172b52413974",
     "entities": [
       {
         "tableName": "CityObjEntity",
@@ -57,16 +57,32 @@
           ],
           "autoGenerate": false
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_CityObjEntity_id",
+            "unique": false,
+            "columnNames": [
+              "id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_CityObjEntity_id` ON `${TABLE_NAME}` (`id`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
         "tableName": "Forecast",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `alerts` TEXT NOT NULL, `daily` TEXT NOT NULL, `hourly` TEXT NOT NULL, `lat` REAL NOT NULL, `lon` REAL NOT NULL, `timezone` TEXT NOT NULL, `timezone_offset` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `cityId` INTEGER NOT NULL, `alerts` TEXT NOT NULL, `daily` TEXT NOT NULL, `hourly` TEXT NOT NULL, `lat` REAL NOT NULL, `lon` REAL NOT NULL, `timezone` TEXT NOT NULL, `timezone_offset` INTEGER NOT NULL, FOREIGN KEY(`cityId`) REFERENCES `CityObjEntity`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cityId",
+            "columnName": "cityId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -120,13 +136,25 @@
           "autoGenerate": true
         },
         "indices": [],
-        "foreignKeys": []
+        "foreignKeys": [
+          {
+            "table": "CityObjEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "cityId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a66bfa239c2fefeb0826bed648a344fb')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bfdb741904175888b550172b52413974')"
     ]
   }
 }

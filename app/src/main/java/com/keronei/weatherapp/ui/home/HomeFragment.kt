@@ -18,6 +18,8 @@ import com.keronei.weatherapp.ui.viewstate.ViewState
 import com.keronei.weatherapp.utils.CountryDeterminerUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -66,9 +68,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun citySelected(cityPresentation: CityPresentation) {
-
-        citiesViewModel.fetchForecastDataForCity(cityPresentation)
-
+        lifecycleScope.launch {
+            citiesViewModel.fetchForecastDataForCity(cityPresentation.id)
+        }
         Toast.makeText(context, cityPresentation.name, Toast.LENGTH_SHORT).show()
     }
 
