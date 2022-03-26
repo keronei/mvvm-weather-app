@@ -1,7 +1,6 @@
 package com.keronei.weatherapp.data.remote
 
 import com.keronei.weatherapp.core.Resource
-import com.keronei.weatherapp.data.model.CityObjEntity
 import com.keronei.weatherapp.data.model.Forecast
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose

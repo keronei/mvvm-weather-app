@@ -17,5 +17,4 @@ object AppModule {
     @Singleton
     fun providesDataStoreInstance(@ApplicationContext context: Context): DataStoreManager =
         DataStoreManager(context)
-
 }

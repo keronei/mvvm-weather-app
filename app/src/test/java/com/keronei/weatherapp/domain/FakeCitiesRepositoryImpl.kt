@@ -24,8 +24,9 @@ class FakeCitiesRepositoryImpl : CitiesRepository {
         count: Int,
         country: String
     ): Flow<List<CityWithForecast>> {
-        return flowOf(citiesStoreWithForecast.filter { cityWithForecast -> cityWithForecast.cityObjEntity.name == country }
-            .take(count))
+        return flowOf(
+            citiesStoreWithForecast.filter { cityWithForecast -> cityWithForecast.cityObjEntity.name == country }
+                .take(count)
+        )
     }
-
 }

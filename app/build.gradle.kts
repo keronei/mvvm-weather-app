@@ -87,7 +87,6 @@ android {
 
             resValue("string", "apiKey", apiKey)
         }
-
     }
 
     dependencies {

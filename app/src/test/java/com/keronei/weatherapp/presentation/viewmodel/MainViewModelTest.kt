@@ -9,7 +9,6 @@ import com.keronei.weatherapp.data.model.Forecast
 import com.keronei.weatherapp.domain.FakeCitiesRepositoryImpl
 import com.keronei.weatherapp.domain.FakeForecastRepositoryImpl
 import com.keronei.weatherapp.domain.MockData
-import com.keronei.weatherapp.presentation.CityPresentation
 import com.keronei.weatherapp.ui.viewstate.ViewState
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
@@ -42,8 +41,10 @@ class MainViewModelTest {
                 Coord(
                     36.0,
                     1.8,
-                ), "ke", 1, "Kisumu", "", false
-            ), null
+                ),
+                "ke", 1, "Kisumu", "", false
+            ),
+            null
         )
 
         runBlocking {
@@ -54,14 +55,10 @@ class MainViewModelTest {
                 when (expectedValue) {
                     is Resource.Success -> {
                         assertThat("Forecast is preset.", expectedValue.data.equals(forecast))
-
                     }
                     else -> {
-
                     }
                 }
-
-
             }
         }
     }

@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -89,14 +88,12 @@ class ForecastRepositoryImpl @Inject constructor(
                                             trySend(Resource.Success(updatedFromLocal.first()))
                                         }
                                     }
-
                             }
                             else -> {
                                 trySend(Resource.Empty)
                             }
                         }
                     }
-
                 } else {
                     if (localResource == null) {
                         trySend(Resource.Empty)

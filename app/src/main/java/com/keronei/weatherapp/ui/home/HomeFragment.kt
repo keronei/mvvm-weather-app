@@ -19,7 +19,6 @@ import com.keronei.weatherapp.utils.CountryDeterminerUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -79,13 +78,10 @@ class HomeFragment : Fragment() {
 
             when (viewState) {
                 ViewState.Empty -> {
-
                 }
                 is ViewState.Error -> {
-
                 }
                 ViewState.Loading -> {
-
                 }
                 is ViewState.Success -> {
                     onCitiesListLoaded(viewState.citiesPresentations)

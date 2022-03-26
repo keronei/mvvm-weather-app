@@ -34,7 +34,8 @@ object NetworkModule {
     fun interceptWithAppId(@ApplicationContext context: Context): Interceptor {
         return Interceptor { chain ->
             val url = chain.request().url.newBuilder().addQueryParameter(
-                "appid", context.resources.getString(
+                "appid",
+                context.resources.getString(
                     R.string.apiKey
                 )
             ).build()
@@ -44,8 +45,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun interceptWithLogging(): HttpLoggingInterceptor = HttpLoggingInterceptor(
-    ).setLevel(if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE)
+    fun interceptWithLogging(): HttpLoggingInterceptor = HttpLoggingInterceptor().setLevel(if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE)
 
     @Singleton
     @Provides

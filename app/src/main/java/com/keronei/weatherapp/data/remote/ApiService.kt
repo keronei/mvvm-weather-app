@@ -3,7 +3,6 @@ package com.keronei.weatherapp.data.remote
 import com.keronei.weatherapp.application.Constants.DEFAULT_FIELDS_TO_EXCLUDE
 import com.keronei.weatherapp.application.Constants.ONE_CALL_FORECAST_ENDPOINT
 import com.keronei.weatherapp.data.model.Forecast
-import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
