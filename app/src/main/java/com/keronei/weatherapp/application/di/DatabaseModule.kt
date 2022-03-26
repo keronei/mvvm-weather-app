@@ -26,7 +26,7 @@ object DatabaseModule {
     @Singleton
     fun provideDatabaseInstance(
         @ApplicationContext context: Context
-    ) : WeatherAppDatabase = WeatherAppDatabase.buildDatabase(context)
+    ): WeatherAppDatabase = WeatherAppDatabase.buildDatabase(context)
 
     @Provides
     @Singleton

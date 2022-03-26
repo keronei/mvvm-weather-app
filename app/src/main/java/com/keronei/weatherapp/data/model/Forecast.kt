@@ -6,12 +6,14 @@ import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 
 @Entity(
-    foreignKeys = [ForeignKey(
-        entity = CityObjEntity::class,
-        parentColumns = arrayOf("id"),
-        childColumns = arrayOf("cityId"),
-        onDelete = CASCADE
-    )]
+    foreignKeys = [
+        ForeignKey(
+            entity = CityObjEntity::class,
+            parentColumns = arrayOf("id"),
+            childColumns = arrayOf("cityId"),
+            onDelete = CASCADE
+        )
+    ]
 )
 data class Forecast(
     @PrimaryKey(autoGenerate = true)

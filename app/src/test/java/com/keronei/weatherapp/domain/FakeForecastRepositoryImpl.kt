@@ -9,14 +9,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
 @ExperimentalCoroutinesApi
-class FakeForecastRepositoryImpl : ForecastRepository{
+class FakeForecastRepositoryImpl : ForecastRepository {
     override suspend fun fetchCityForecast(cityWithForecast: CityWithForecast): Flow<Resource<Forecast>> = callbackFlow {
         val validResponse = MockData.getForecastResponse()
 
         trySend(Resource.Success(validResponse))
 
         awaitClose { close() }
-
     }
-
 }

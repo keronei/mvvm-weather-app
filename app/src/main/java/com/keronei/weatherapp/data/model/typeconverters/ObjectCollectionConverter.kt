@@ -6,7 +6,6 @@ import com.keronei.weatherapp.data.model.Alert
 import com.keronei.weatherapp.data.model.Daily
 import com.keronei.weatherapp.data.model.Hourly
 
-
 class ObjectCollectionConverter {
     private val gsonInstance = Gson()
 
@@ -40,7 +39,7 @@ class ObjectCollectionConverter {
 
     @TypeConverter
     fun fromAlertsList(alerts: List<Alert>?): String {
-        return if(alerts == null) "" else gsonInstance.toJson(alerts)
+        return if (alerts == null) "" else gsonInstance.toJson(alerts)
     }
 
     @TypeConverter

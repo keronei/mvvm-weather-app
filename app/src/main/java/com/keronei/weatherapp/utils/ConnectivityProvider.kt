@@ -10,7 +10,6 @@ class ConnectivityProvider constructor(private val context: Context) {
         val connectivityManager: ConnectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val network = connectivityManager.activeNetwork ?: return false
             val activeNetwork =
@@ -28,5 +27,4 @@ class ConnectivityProvider constructor(private val context: Context) {
             return networkInfo.isConnected
         }
     }
-
 }

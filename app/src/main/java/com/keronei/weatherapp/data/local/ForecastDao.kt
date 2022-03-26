@@ -12,9 +12,8 @@ interface ForecastDao {
     suspend fun createForecastUpdate(forecast: Forecast): Long
 
     @Query("SELECT * FROM Forecast WHERE lat = :lat AND lon = :lon LIMIT 1")
-    fun getForecast(lat : Double, lon : Double) : Flow<List<Forecast>>
+    fun getForecast(lat: Double, lon: Double): Flow<List<Forecast>>
 
     @Update(entity = Forecast::class) // partial update
-    fun updateForecast(forecastUpdate: ForecastUpdate) : Int
-
+    fun updateForecast(forecastUpdate: ForecastUpdate): Int
 }
