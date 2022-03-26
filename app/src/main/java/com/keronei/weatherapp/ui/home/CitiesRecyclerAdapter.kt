@@ -7,8 +7,10 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.keronei.weatherapp.R
 import com.keronei.weatherapp.databinding.CityItemBinding
 import com.keronei.weatherapp.presentation.CityPresentation
+import timber.log.Timber
 import java.util.*
 
 class CitiesRecyclerAdapter(
@@ -61,17 +63,17 @@ class CitiesRecyclerAdapter(
         fun bind(cityPresentation: CityPresentation, context: Context) {
             binding.city = cityPresentation
 
-            if (cityPresentation.temperature != "-") {
-                binding.temperature.text = cityPresentation.temperature
+            if (cityPresentation.temperature != null) {
+                val formattedTemp = "%.1f".format(cityPresentation.temperature)
+                binding.temperature.text = context.getString(R.string.degree_celcius, formattedTemp)
             }
 
             if (cityPresentation.iconName != "") {
-
                 binding.icon.setImageDrawable(
                     AppCompatResources.getDrawable(
                         context,
                         context.resources.getIdentifier(
-                            "a${cityPresentation.iconName}",
+                            cityPresentation.iconName,
                             "drawable",
                             context.packageName
                         )

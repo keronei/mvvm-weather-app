@@ -3,4 +3,5 @@
     <string name="status_icon">Weather status icon</string>
     <string name="empty_temperature">–</string>
     <string name="favourite_status">Favourite status</string>
+  <string name="degree_celcius">%s \u2103</string>
 </resources>

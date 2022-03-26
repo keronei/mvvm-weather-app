@@ -8,7 +8,7 @@ data class CityPresentation(
     val lat: Double,
     val lon: Double,
     val country: String,
-    val temperature: String,
+    val temperature: Double?,
     val iconName: String,
     val forecast: Forecast?
 )

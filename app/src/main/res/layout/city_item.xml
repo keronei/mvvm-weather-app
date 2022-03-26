@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:text="@{city.name}"
                 android:paddingTop="@dimen/dimen_10_dp"
-                app:layout_constraintEnd_toStartOf="@id/temperature"
+                app:layout_constraintEnd_toStartOf="@id/favourite"
                 app:layout_constraintHorizontal_weight="4"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -44,12 +44,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:text="@string/empty_temperature"
+                style="@style/TextAppearance.Material3.HeadlineSmall"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/icon"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toEndOf="@id/name"
-                tools:text="28º" />
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="28ºC" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/country"
