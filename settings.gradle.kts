@@ -22,4 +22,4 @@ pluginManagement {
     }
 }
 include("app")
-rootProject.name = "GradlePlugins"
+rootProject.name = "Weather App"

@@ -1,14 +1,26 @@
+import java.io.File
+import java.io.FileInputStream
+import java.util.*
+
 plugins {
     id(BuildPlugins.androidApplication)
     id(BuildPlugins.kotlinAndroid)
     id(BuildPlugins.kotlinParcelizePlugin)
     id(BuildPlugins.ktlintPlugin)
     id(BuildPlugins.jacocoAndroid)
+    id(BuildPlugins.kotlinKapt)
+    id(BuildPlugins.hiltPlugin)
+    id(BuildPlugins.detektPlugin)
 }
 
 jacoco {
     toolVersion = Versions.jacoco
 }
+
+val prop = Properties().apply {
+    load(FileInputStream(File(rootProject.rootDir, "keys.properties")))
+}
+val apiKey: String = prop.getProperty("API_KEY")
 
 android {
 
@@ -17,12 +29,18 @@ android {
     android.buildFeatures.viewBinding = true
 
     defaultConfig {
-        applicationId = "ke.co.appslab.gradleplugins"
+        applicationId = "com.keronei.weatherapp"
         minSdk = AndroidSdk.minSdkVersion
         targetSdk = AndroidSdk.targetSdkVersion
         versionCode = AndroidSdk.versionCode
         versionName = AndroidSdk.versionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += mapOf("room.schemaLocation" to "$projectDir/schemas")
+            }
+        }
     }
 
     testOptions {
@@ -33,11 +51,43 @@ android {
         }
     }
 
+    sourceSets {
+        getByName("androidTest").assets.srcDir("$projectDir/schemas")
+    }
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
+    dataBinding {
+        android.buildFeatures.dataBinding = true
+    }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+
+            resValue("string", "apiKey", apiKey)
         }
+        getByName("debug") {
+            isMinifyEnabled = false
+
+            resValue("string", "apiKey", apiKey)
+        }
+
     }
 
     dependencies {
@@ -45,11 +95,51 @@ android {
         implementation(Libraries.appCompat)
         implementation(Libraries.constraintLayout)
         implementation(Libraries.materialComponents)
+        implementation(Libraries.activityKtx)
+        implementation(Libraries.fragmentKtx)
+        implementation(Libraries.navigationFragment)
 
+        // DataStore
+        implementation(Libraries.dataStore)
+
+        // Easy permissions
+        implementation(Libraries.easyPermissions)
+
+        // Hilt - DI
+        implementation(Libraries.daggerHilt)
+        kapt(Libraries.hiltCompiler)
+        implementation(Libraries.hiltViewModel)
+        kapt(Libraries.hiltAndroidxCompiler)
+
+        // Room
+        implementation(Libraries.room)
+        kapt(Libraries.room_compiler)
+        androidTestImplementation(Libraries.room_testing)
+
+        // Timber
+        implementation(Libraries.timber)
+
+        // Network
+        implementation(Libraries.retrofit)
+        implementation(Libraries.gson)
+        implementation(platform(Libraries.okhttp3BOM))
+        implementation(Libraries.okhttp3)
+        implementation(Libraries.loggingInterceptor)
+
+        // Coroutines
+        implementation(Libraries.coroutines)
+        implementation(Libraries.coroutinesAndroid)
+
+        // Testing
         androidTestImplementation(TestLibraries.testRunner)
         androidTestImplementation(TestLibraries.espresso)
-        androidTestImplementation(TestLibraries.annotation)
-
         testImplementation(TestLibraries.junit4)
+        implementation(TestLibraries.ext_test_junit4)
+        implementation(TestLibraries.core_testing)
     }
+}
+dependencies {
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
 }
