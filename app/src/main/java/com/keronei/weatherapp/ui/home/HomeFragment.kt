@@ -85,6 +85,7 @@ class HomeFragment : Fragment() {
 
     private fun attemptToEstablishCountryAndLoadCities() {
         val country = CountryDeterminerUtil.getCountry(requireContext(), dataStoreManager)
+        Timber.d("Init with country as $country")
         citiesViewModel.loadFirstTwentyCitiesFromCountry(country ?: "")
     }
 

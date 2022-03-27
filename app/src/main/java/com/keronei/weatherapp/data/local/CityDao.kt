@@ -15,7 +15,7 @@ interface CityDao {
     fun queryAllCities(): Flow<List<CityWithForecast>>
 
     @Transaction
-    @Query("SELECT * FROM CityObjEntity WHERE identity > 0 or iso2 LIKE '%' || :country || '%' or  favourite = 1 ORDER BY favourite DESC LIMIT :count")
+    @Query("SELECT * FROM CityObjEntity WHERE favourite = 1 OR (iso2 LIKE '%' || :country || '%') ORDER BY favourite DESC LIMIT :count")
     fun queryLimitedCitiesCount(count: Int, country: String): Flow<List<CityWithForecast>>
 
     @Update(entity = CityObjEntity::class)
