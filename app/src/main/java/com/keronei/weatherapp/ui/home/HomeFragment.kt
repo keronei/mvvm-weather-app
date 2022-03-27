@@ -65,13 +65,7 @@ class HomeFragment : Fragment() {
     private fun implementSearch() {
         searchView.setOnCloseListener {
             attemptToEstablishCountryAndLoadCities()
-            citiesViewModel.searchIsActive = false
             return@setOnCloseListener false
-        }
-
-        searchView.setOnSearchClickListener { _ ->
-            citiesViewModel.searchIsActive = true
-            citiesViewModel.loadAllCitiesInDatabase()
         }
 
         // Post query text as it comes.
@@ -104,8 +98,7 @@ class HomeFragment : Fragment() {
     private fun citySelected(cityPresentation: CityPresentation) {
         lifecycleScope.launch {
             citiesViewModel.fetchForecastDataForCity(
-                cityPresentation.id,
-                citiesViewModel.searchIsActive
+                cityPresentation.id
             )
         }
         Toast.makeText(context, cityPresentation.name, Toast.LENGTH_SHORT).show()
