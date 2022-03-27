@@ -48,6 +48,9 @@ class CitiesRecyclerAdapter(
                 untouchedList.filter { item ->
                     item.name.lowercase(Locale.getDefault())
                         .contains(query.toString().lowercase(Locale.getDefault()))
+
+                            || item.country.lowercase(Locale.getDefault())
+                        .contains(query.toString().lowercase(Locale.getDefault()))
                 }
             )
         } else {

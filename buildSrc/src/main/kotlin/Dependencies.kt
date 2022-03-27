@@ -52,6 +52,9 @@ object Versions {
 
     // Logging - timber
     const val timber = "5.0.1"
+
+    // jackson
+    const val jackson = "2.10.1"
 }
 
 object BuildPlugins {
@@ -117,6 +120,13 @@ object Libraries {
     // Coroutines
     const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
     const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
+
+    // Jackson
+//    const val jacksonCore = "com.fasterxml.jackson.core:jackson-core:${Versions.jackson}"
+//    const val jacksonAnnotations = "com.fasterxml.jackson.core:jackson-annotations:${Versions.jackson}"
+//    const val jacksonDatabind = "com.fasterxml.jackson.core:jackson-databind:${Versions.jackson}"
+    const val jacksonKotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:2.13.2"
+    const val jacksonDataFormat = "com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.13.2"
 
 }
 

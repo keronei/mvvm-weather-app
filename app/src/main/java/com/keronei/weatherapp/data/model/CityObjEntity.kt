@@ -1,19 +1,22 @@
 package com.keronei.weatherapp.data.model
 
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 data class CityObjEntity(
-    @Embedded
-    val coord: Coord,
-    val country: String,
+    val lat: Double,
+    val lng : Double,
+    @ColumnInfo(defaultValue = "")
+    val iso2: String,
+    val country : String,
     @ColumnInfo(index = true)
-    @PrimaryKey
-    val id: Int,
-    val name: String,
-    val state: String,
+    @PrimaryKey(autoGenerate = true)
+    val identity: Int,
+    val city_ascii: String,
+    val city: String,
     val favourite: Boolean = false
 )

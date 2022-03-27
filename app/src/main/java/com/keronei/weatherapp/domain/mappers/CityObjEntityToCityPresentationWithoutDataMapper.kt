@@ -37,10 +37,10 @@ class CityObjEntityToCityPresentationWithoutDataMapper :
         }
 
         return CityPresentation(
-            input.cityObjEntity.id,
-            input.cityObjEntity.name,
-            format("%.4f", input.cityObjEntity.coord.lat).toDouble(),
-            format("%.4f", input.cityObjEntity.coord.lon).toDouble(),
+            input.cityObjEntity.identity,
+            input.cityObjEntity.city_ascii,
+            format("%.4f", input.cityObjEntity.lat).toDouble(),
+            format("%.4f", input.cityObjEntity.lng).toDouble(),
             input.cityObjEntity.country,
             temperature,
             iconName,

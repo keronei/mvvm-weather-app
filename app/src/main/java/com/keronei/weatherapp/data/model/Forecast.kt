@@ -1,5 +1,6 @@
 package com.keronei.weatherapp.data.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
@@ -9,7 +10,7 @@ import androidx.room.PrimaryKey
     foreignKeys = [
         ForeignKey(
             entity = CityObjEntity::class,
-            parentColumns = arrayOf("id"),
+            parentColumns = arrayOf("identity"),
             childColumns = arrayOf("cityId"),
             onDelete = CASCADE
         )
@@ -18,6 +19,7 @@ import androidx.room.PrimaryKey
 data class Forecast(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
+    @ColumnInfo(index = true)
     var cityId: Int,
     val alerts: List<Alert>,
     val daily: List<Daily>,

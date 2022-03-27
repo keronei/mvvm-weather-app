@@ -95,7 +95,7 @@ class MainViewModel @Inject constructor(
         if (first20Cities.isNotEmpty()) {
             viewModelScope.launch {
                 first20Cities.forEach { city ->
-                    fetchForecastDataForCity(city.cityObjEntity.id, false)
+                    fetchForecastDataForCity(city.cityObjEntity.identity, false)
                 }
             }
         }
@@ -103,9 +103,9 @@ class MainViewModel @Inject constructor(
 
     fun fetchForecastDataForCity(cityId: Int, searchIsActive: Boolean) {
         val city: CityWithForecast = if (searchIsActive) {
-            allCities.first { thisCity -> thisCity.cityObjEntity.id == cityId }
+            allCities.first { thisCity -> thisCity.cityObjEntity.identity == cityId }
         } else {
-            first20Cities.first { thisCity -> thisCity.cityObjEntity.id == cityId }
+            first20Cities.first { thisCity -> thisCity.cityObjEntity.identity == cityId }
         }
         viewModelScope.launch {
             try {

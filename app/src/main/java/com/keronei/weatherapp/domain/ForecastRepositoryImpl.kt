@@ -12,7 +12,6 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
@@ -28,9 +27,9 @@ class ForecastRepositoryImpl @Inject constructor(
         callbackFlow {
             trySend(Resource.Loading)
 
-            val lat = cityWithForecast.cityObjEntity.coord.lat
-            val lon = cityWithForecast.cityObjEntity.coord.lon
-            val cityId = cityWithForecast.cityObjEntity.id
+            val lat = cityWithForecast.cityObjEntity.lat
+            val lon = cityWithForecast.cityObjEntity.lng
+            val cityId = cityWithForecast.cityObjEntity.identity
 
             val localResource = cityWithForecast.forecast
 

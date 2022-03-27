@@ -6,7 +6,7 @@ import androidx.room.Relation
 data class CityWithForecast(
     @Embedded val cityObjEntity: CityObjEntity,
     @Relation(
-        parentColumn = "id",
+        parentColumn = "identity",
         entityColumn = "cityId"
     )
     val forecast: Forecast?

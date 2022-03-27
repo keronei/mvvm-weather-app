@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //activityMainViewBinding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_main)
+        activityMainViewBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(activityMainViewBinding.root)
     }
 }
