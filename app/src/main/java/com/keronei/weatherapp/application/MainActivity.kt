@@ -17,6 +17,7 @@ package com.keronei.weatherapp.application
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.keronei.weatherapp.R
 import com.keronei.weatherapp.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityMainViewBinding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(activityMainViewBinding.root)
+        //activityMainViewBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(R.layout.activity_main)
     }
 }

@@ -1,13 +1,26 @@
 package com.keronei.weatherapp.core.mapper
 
+import kotlinx.coroutines.*
+
 abstract class Mapper<Input, Output> {
     abstract fun map(input: Input): Output
 
-    fun mapList(inputs: List<Input>?): List<Output> {
-        val outputs = mutableListOf<Output>()
-        inputs?.forEach { input: Input ->
-            outputs.add(map(input))
+    suspend fun mapList(inputs: List<Input>?, sentCoroutineScope: CoroutineScope): List<Output> {
+
+        val deferredOutputs = mutableListOf<Deferred<Output>>()
+
+        val job = sentCoroutineScope.async {
+            inputs?.forEach { input: Input ->
+                val pendingResult = async {
+                    map(input)
+                }
+                deferredOutputs.add(pendingResult)
+            }
+
         }
-        return outputs
+
+        job.join()
+
+        return deferredOutputs.awaitAll()
     }
 }
