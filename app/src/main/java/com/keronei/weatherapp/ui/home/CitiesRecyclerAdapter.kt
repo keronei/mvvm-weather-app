@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.keronei.weatherapp.R
 import com.keronei.weatherapp.databinding.CityItemBinding
 import com.keronei.weatherapp.presentation.CityPresentation
+import timber.log.Timber
 import java.util.*
 
 class CitiesRecyclerAdapter(
@@ -26,11 +27,11 @@ class CitiesRecyclerAdapter(
     ): RegionsViewHolder = RegionsViewHolder.from(parent)
 
     override fun onBindViewHolder(holder: RegionsViewHolder, position: Int) {
-        val region = getItem(position)
-        holder.bind(region, context)
+        val cityPresentation = getItem(position)
+        holder.bind(cityPresentation, context)
 
         holder.binding.root.setOnClickListener {
-            itemSelected(region)
+            itemSelected(cityPresentation)
         }
     }
 
@@ -47,11 +48,16 @@ class CitiesRecyclerAdapter(
                 untouchedList.filter { item ->
                     item.name.lowercase(Locale.getDefault())
                         .contains(query.toString().lowercase(Locale.getDefault()))
+
+                            || item.country.lowercase(Locale.getDefault())
+                        .contains(query.toString().lowercase(Locale.getDefault()))
                 }
             )
         } else {
             list.addAll(untouchedList)
         }
+
+        Timber.d("Adding ${list.size} matches.")
 
         submitList(list)
     }

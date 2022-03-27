@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -19,6 +20,7 @@ import com.keronei.weatherapp.utils.CountryDeterminerUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -29,6 +31,8 @@ class HomeFragment : Fragment() {
     private lateinit var citiesRecyclerAdapter: CitiesRecyclerAdapter
 
     private lateinit var homeFragmentBinding: HomeFragmentBinding
+
+    lateinit var searchView: androidx.appcompat.widget.SearchView
 
     @Inject
     lateinit var dataStoreManager: DataStoreManager
@@ -41,21 +45,47 @@ class HomeFragment : Fragment() {
         homeFragmentBinding =
             DataBindingUtil.inflate(inflater, R.layout.home_fragment, container, false)
 
+        searchView = homeFragmentBinding.searchViewAllCities
+
         return homeFragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        attemptToEstablishCountry()
+        attemptToEstablishCountryAndLoadCities()
 
         setupCitiesRecycler()
 
         observeCitiesList()
+
+        implementSearch()
     }
 
-    private fun attemptToEstablishCountry() {
+    private fun implementSearch() {
+        searchView.setOnCloseListener {
+            attemptToEstablishCountryAndLoadCities()
+            return@setOnCloseListener false
+        }
+
+        // Post query text as it comes.
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                citiesRecyclerAdapter.filter(newText)
+                return true
+            }
+
+        })
+    }
+
+    private fun attemptToEstablishCountryAndLoadCities() {
         val country = CountryDeterminerUtil.getCountry(requireContext(), dataStoreManager)
+        Timber.d("Init with country as $country")
         citiesViewModel.loadFirstTwentyCitiesFromCountry(country ?: "")
     }
 
@@ -68,7 +98,9 @@ class HomeFragment : Fragment() {
 
     private fun citySelected(cityPresentation: CityPresentation) {
         lifecycleScope.launch {
-            citiesViewModel.fetchForecastDataForCity(cityPresentation.id)
+            citiesViewModel.fetchForecastDataForCity(
+                cityPresentation.id
+            )
         }
         Toast.makeText(context, cityPresentation.name, Toast.LENGTH_SHORT).show()
     }
@@ -84,6 +116,7 @@ class HomeFragment : Fragment() {
                 ViewState.Loading -> {
                 }
                 is ViewState.Success -> {
+                    Timber.d("Added ${viewState.citiesPresentations.size} to adapter.")
                     onCitiesListLoaded(viewState.citiesPresentations)
                 }
             }
@@ -91,6 +124,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun onCitiesListLoaded(citiesPresentations: List<CityPresentation>) {
-        citiesRecyclerAdapter.submitList(citiesPresentations)
+        citiesRecyclerAdapter.modifyList(citiesPresentations)
     }
 }

@@ -9,41 +9,44 @@ import com.keronei.weatherapp.domain.mappers.CityObjEntityToCityPresentationWith
 import com.keronei.weatherapp.ui.viewstate.ViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val citiesRepository: CitiesRepository,
-    private val forecastRepository: ForecastRepository
+    private val forecastRepository: ForecastRepository,
 ) :
     ViewModel() {
 
     private val _cities = MutableStateFlow<ViewState>(value = ViewState.Empty)
-    val cities: StateFlow<ViewState>
-        get() = _cities
+    val cities: StateFlow<ViewState> = _cities
 
     private val first20Cities = mutableListOf<CityWithForecast>()
 
     private var hasFetchedForFirst20Already = false
 
     fun loadFirstTwentyCitiesFromCountry(country: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             citiesRepository.queryLimitedCitiesCount(
                 20,
                 country.uppercase(Locale.getDefault())
             ).collect { citiesObject ->
+
                 val citiesAsPresentationWithData =
                     CityObjEntityToCityPresentationWithoutDataMapper().mapList(
-                        citiesObject
+                        citiesObject, viewModelScope
                     )
                 first20Cities.clear()
 
                 first20Cities.addAll(citiesObject)
+                Timber.d("Emitting from first 20 ${citiesAsPresentationWithData.size}")
 
                 _cities.emit(ViewState.Success(citiesAsPresentationWithData))
 
@@ -54,23 +57,22 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun refreshListData() {
-        fetchCitiesWeatherData()
-    }
 
     private fun fetchCitiesWeatherData() {
         hasFetchedForFirst20Already = true
         if (first20Cities.isNotEmpty()) {
             viewModelScope.launch {
                 first20Cities.forEach { city ->
-                    fetchForecastDataForCity(city.cityObjEntity.id)
+                    fetchForecastDataForCity(city.cityObjEntity.identity)
                 }
             }
         }
     }
 
     fun fetchForecastDataForCity(cityId: Int) {
-        val city = first20Cities.first { city -> city.cityObjEntity.id == cityId }
+        val city: CityWithForecast =
+            first20Cities.first { thisCity -> thisCity.cityObjEntity.identity == cityId }
+
         viewModelScope.launch {
             try {
                 forecastRepository.fetchCityForecast(city)

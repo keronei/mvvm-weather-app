@@ -24,7 +24,7 @@ class CityObjEntityToCityPresentationWithoutDataMapper :
             val hourUpdate = fc.hourly.firstOrNull { hourly -> hourly.dt * 1000L == startHour }
 
             if (hourUpdate != null) {
-                temperature = (hourUpdate.temp - 273.15) // to Celcius
+                temperature = (hourUpdate.temp - 273.15) // to Celsius
                 val rawIc = hourUpdate.weather.firstOrNull()?.icon
                 iconName = if (rawIc != null) {
                     "a$rawIc"
@@ -34,15 +34,13 @@ class CityObjEntityToCityPresentationWithoutDataMapper :
             } else {
                 Timber.d("hourUpdate null in mapper")
             }
-        } else {
-            Timber.d("Forecast Null in mapper")
         }
 
         return CityPresentation(
-            input.cityObjEntity.id,
-            input.cityObjEntity.name,
-            format("%.4f", input.cityObjEntity.coord.lat).toDouble(),
-            format("%.4f", input.cityObjEntity.coord.lon).toDouble(),
+            input.cityObjEntity.identity,
+            input.cityObjEntity.city_ascii,
+            format("%.4f", input.cityObjEntity.lat).toDouble(),
+            format("%.4f", input.cityObjEntity.lng).toDouble(),
             input.cityObjEntity.country,
             temperature,
             iconName,

@@ -11,11 +11,11 @@ interface CityDao {
     @Insert(onConflict = REPLACE)
     suspend fun createCity(city: CityObjEntity): Long
 
-    @Query("SELECT * FROM CityObjEntity ORDER BY id ASC")
+    @Query("SELECT * FROM CityObjEntity ORDER BY identity ASC")
     fun queryAllCities(): Flow<List<CityWithForecast>>
 
     @Transaction
-    @Query("SELECT * FROM CityObjEntity WHERE id > 0 or country LIKE '%' || :country || '%' or  favourite = 1 ORDER BY favourite DESC LIMIT :count")
+    @Query("SELECT * FROM CityObjEntity WHERE favourite = 1 OR (iso2 LIKE '%' || :country || '%') ORDER BY favourite DESC LIMIT :count")
     fun queryLimitedCitiesCount(count: Int, country: String): Flow<List<CityWithForecast>>
 
     @Update(entity = CityObjEntity::class)

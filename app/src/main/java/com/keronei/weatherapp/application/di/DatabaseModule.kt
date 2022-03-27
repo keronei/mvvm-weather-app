@@ -1,6 +1,7 @@
 package com.keronei.weatherapp.application.di
 
 import android.content.Context
+import com.fasterxml.jackson.dataformat.csv.CsvMapper
 import com.keronei.weatherapp.data.local.CityDao
 import com.keronei.weatherapp.data.local.ForecastDao
 import com.keronei.weatherapp.data.local.WeatherAppDatabase
@@ -25,8 +26,10 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideDatabaseInstance(
-        @ApplicationContext context: Context
-    ): WeatherAppDatabase = WeatherAppDatabase.buildDatabase(context)
+        @ApplicationContext context: Context,
+        coroutineScope: CoroutineScope,
+        csvMapper: CsvMapper
+    ): WeatherAppDatabase = WeatherAppDatabase.buildDatabase(context, coroutineScope, csvMapper)
 
     @Provides
     @Singleton

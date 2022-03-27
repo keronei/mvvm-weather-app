@@ -129,6 +129,14 @@ android {
         implementation(Libraries.coroutines)
         implementation(Libraries.coroutinesAndroid)
 
+        // Jackson parser
+//        implementation(Libraries.jacksonCore)
+//        implementation(Libraries.jacksonAnnotations)
+//        implementation(Libraries.jacksonDatabind)
+
+        implementation(Libraries.jacksonDataFormat)
+        implementation(Libraries.jacksonKotlin)
+
         // Testing
         androidTestImplementation(TestLibraries.testRunner)
         androidTestImplementation(TestLibraries.espresso)
