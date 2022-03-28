@@ -15,9 +15,16 @@
  */
 package com.keronei.weatherapp.presentation.viewmodel
 
+import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.*
+import com.keronei.weatherapp.application.Constants
 import com.keronei.weatherapp.application.Constants.FIRST_COUNT
+import com.keronei.weatherapp.application.Constants.NOTIFICATION_MANAGER_TAG
+import com.keronei.weatherapp.application.Constants.WORK_ID
+import com.keronei.weatherapp.core.worker.NotificationWorker
 import com.keronei.weatherapp.data.model.CityWithForecast
 import com.keronei.weatherapp.domain.CitiesRepository
 import com.keronei.weatherapp.domain.ForecastRepository
@@ -25,19 +32,23 @@ import com.keronei.weatherapp.domain.mappers.CityObjEntityToCityPresentationWith
 import com.keronei.weatherapp.presentation.CityPresentation
 import com.keronei.weatherapp.ui.viewstate.ViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.sql.Time
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val citiesRepository: CitiesRepository,
     private val forecastRepository: ForecastRepository,
+    @ApplicationContext context: Context
 ) :
     ViewModel() {
 
@@ -49,6 +60,34 @@ class MainViewModel @Inject constructor(
     private var hasFetchedForFirst20Already = false
 
     var selectedCity: CityWithForecast? = null
+
+    private val outputWorkInfos: LiveData<List<WorkInfo>>
+
+    private val workManager = WorkManager.getInstance(context)
+
+    init {
+        // Launch work manager job if there's any favourite
+        // Also, if there's favourite city
+        outputWorkInfos = workManager.getWorkInfosByTagLiveData(NOTIFICATION_MANAGER_TAG)
+
+        if (outputWorkInfos.value.isNullOrEmpty()) {
+            initialiseJobToNotifyOfFavourite()
+        }
+
+    }
+
+    private fun initialiseJobToNotifyOfFavourite() {
+        val notifyTemperatureWorkRequest =
+            PeriodicWorkRequestBuilder<NotificationWorker>(1, TimeUnit.HOURS)
+                .addTag(NOTIFICATION_MANAGER_TAG).build()
+
+        workManager.enqueueUniquePeriodicWork(
+            WORK_ID,
+            ExistingPeriodicWorkPolicy.REPLACE,
+            notifyTemperatureWorkRequest
+        )
+    }
+
 
     fun setSelectedCity(cityPresentation: CityPresentation) {
         selectedCity = first20Cities.firstOrNull { cityForecast ->

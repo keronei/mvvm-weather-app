@@ -35,4 +35,8 @@ interface CityDao {
 
     @Update(entity = CityObjEntity::class)
     suspend fun toggleFavourite(city: CityObjEntity): Int
+
+    @Transaction
+    @Query("SELECT * FROM CityObjEntity WHERE favourite = 1")
+    fun queryFavouritedCitiesCount(): Flow<List<CityWithForecast>>
 }

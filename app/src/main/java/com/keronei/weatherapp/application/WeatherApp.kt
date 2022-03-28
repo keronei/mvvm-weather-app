@@ -16,12 +16,15 @@
 package com.keronei.weatherapp.application
 
 import android.app.Application
+import androidx.hilt.work.HiltWorkerFactory
+import androidx.work.Configuration
 import com.keronei.weatherapp.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltAndroidApp
-class WeatherApp : Application() {
+class WeatherApp : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
 
@@ -29,4 +32,12 @@ class WeatherApp : Application() {
             Timber.plant(Timber.DebugTree())
         }
     }
+
+    @Inject
+    lateinit var workerFactory: HiltWorkerFactory
+
+    override fun getWorkManagerConfiguration() =
+        Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build()
 }

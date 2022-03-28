@@ -25,7 +25,6 @@ import kotlinx.coroutines.runBlocking
 import java.util.*
 
 internal object CountryDeterminerUtil {
-    @SuppressLint("MissingPermission") // Has checks that's not reflected.
     fun getCountry(context: Context, dataStoreManager: DataStoreManager): String? {
 
         var country = runBlocking { dataStoreManager.getStringPreference(COUNTRY).first() }

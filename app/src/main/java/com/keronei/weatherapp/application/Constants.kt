@@ -31,4 +31,18 @@ object Constants {
     const val DATABASE_NAME = "weatherappdatabase.db"
 
     const val DEFAULT_FIELDS_TO_EXCLUDE = "minutely,current"
+
+    const val NOTIFICATION_CHANNEL_ID = "channel_1"
+
+    const val TEMPERATURE_UPDATE_MESSAGE = "update"
+
+    const val HEADER = "heading"
+
+    const val ICON_ID = "icon"
+
+    const val CITY_ID = "cityId"
+
+    const val NOTIFICATION_MANAGER_TAG = "notify-city-tag"
+
+    const val WORK_ID = "notify-work"
 }

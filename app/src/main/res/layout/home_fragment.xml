@@ -22,6 +22,7 @@
             android:id="@+id/loading_indicator"
             android:layout_width="match_parent"
             android:layout_height="2dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/search_view_all_cities" />
