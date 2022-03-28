@@ -17,7 +17,6 @@ package com.keronei.weatherapp.application
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.keronei.weatherapp.R
 import com.keronei.weatherapp.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -1,3 +1,18 @@
+/*
+ * Copyright 2022 GradleBuildPlugins
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.keronei.weatherapp.utils
 
 import android.Manifest
@@ -15,9 +30,7 @@ import java.util.*
 fun appHasLocationPermission(context: Context): Boolean =
     EasyPermissions.hasPermissions(context, Manifest.permission.ACCESS_COARSE_LOCATION)
 
-fun Double.toCelsius(): Double {
-    return this - KELVIN_CONVERSION
-}
+fun Double.toCelsius(): Double = (this - KELVIN_CONVERSION)
 
 inline fun SearchView.onQueryTextChanged(crossinline onQueryTextChanged: (String) -> Unit) {
     setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -45,9 +58,13 @@ fun getDrawableWithName(context: Context, drawableName: String): Drawable? {
 
 fun String.capitaliseFirstCharacter(): String {
     return this.replaceFirstChar {
-        if (it.isLowerCase()) it.titlecase(
-            Locale.getDefault()
-        ) else it.toString()
+        if (it.isLowerCase()) {
+            it.titlecase(
+                Locale.getDefault()
+            )
+        } else {
+            it.toString()
+        }
     }
 }
 
@@ -75,6 +92,4 @@ fun Fragment.showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
     requireContext().showToast(message, duration)
 }
 
-fun Int.fromUnixTimestamp(): Long {
-    return (this * 1000).toLong()
-}
+fun Int.fromUnixTimestamp(): Long = (this * 1000).toLong()

@@ -1,16 +1,27 @@
+/*
+ * Copyright 2022 GradleBuildPlugins
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.keronei.weatherapp.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.location.Address
-import android.location.Geocoder
-import android.location.LocationManager
 import android.telephony.TelephonyManager
 import com.keronei.weatherapp.application.Constants.COUNTRY
 import com.keronei.weatherapp.application.preference.DataStoreManager
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import timber.log.Timber
 import java.util.*
 
 internal object CountryDeterminerUtil {
@@ -22,50 +33,14 @@ internal object CountryDeterminerUtil {
         if (country != "") {
             return country
         }
-        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-        if (appHasLocationPermission(context)) {
-            var location = locationManager
-                .getLastKnownLocation(LocationManager.GPS_PROVIDER)
-            if (location == null) {
-                location = locationManager
-                    .getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-            }
+        country = getCountryBasedOnSimCardOrNetwork(context) ?: ""
 
-            if (location == null) {
-                Timber.w("Couldn't get location from network and gps providers")
-                return null
+        if (country != "") {
+            runBlocking {
+                dataStoreManager.saveStringPreference(COUNTRY, country)
             }
-            val gcd = Geocoder(context, Locale.getDefault())
-            val addresses: List<Address>?
-            try {
-                addresses = gcd.getFromLocation(
-                    location.latitude,
-                    location.longitude, 1
-                )
-                if (addresses != null && addresses.isNotEmpty()) {
-                    country = addresses[0].countryName
-                    if (country != null) {
-                        runBlocking {
-                            dataStoreManager.saveStringPreference(COUNTRY, country)
-                        }
-                        return country
-                    }
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                return null
-            }
-        } else {
-
-            country = getCountryBasedOnSimCardOrNetwork(context) ?: ""
-
-            if (country != "") {
-                runBlocking {
-                    dataStoreManager.saveStringPreference(COUNTRY, country)
-                }
-                return country
-            }
+            return country
         }
 
         return country

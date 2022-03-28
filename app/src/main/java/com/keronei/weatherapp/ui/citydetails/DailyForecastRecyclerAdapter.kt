@@ -1,3 +1,18 @@
+/*
+ * Copyright 2022 GradleBuildPlugins
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.keronei.weatherapp.ui.citydetails
 
 import android.content.Context
@@ -28,7 +43,6 @@ class DailyForecastRecyclerAdapter(
     override fun onBindViewHolder(holder: RegionsViewHolder, position: Int) {
         val daily = getItem(position)
         holder.bind(daily, context)
-
     }
 
     class RegionsViewHolder(private val binding: DailyForecastBinding) :
@@ -52,7 +66,7 @@ class DailyForecastRecyclerAdapter(
 
             if (day.weather.isNotEmpty()) {
                 binding.dayProminentIcon.setImageDrawable(
-                   getDrawableWithName(context, "a${day.weather.first().icon}")
+                    getDrawableWithName(context, "a${day.weather.first().icon}")
                 )
 
                 binding.dayWeatherDescription.text =
