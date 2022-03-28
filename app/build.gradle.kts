@@ -131,6 +131,7 @@ android {
 
         // Work
         implementation(Libraries.work)
+        implementation(Libraries.hiltWork)
 
         // Testing
         androidTestImplementation(TestLibraries.testRunner)

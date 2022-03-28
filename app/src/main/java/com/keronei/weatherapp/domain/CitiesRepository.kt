@@ -25,6 +25,8 @@ interface CitiesRepository {
 
     fun queryAllCities(): Flow<List<CityWithForecast>>
 
+    fun queryFavouritedCities(): Flow<List<CityWithForecast>>
+
     fun queryLimitedCitiesCount(count: Int, country: String): Flow<List<CityWithForecast>>
 
     suspend fun toggleFavourite(cityObjEntity: CityObjEntity)

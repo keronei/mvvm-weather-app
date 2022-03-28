@@ -52,7 +52,7 @@ object Versions {
     // Logging - timber
     const val timber = "5.0.1"
 
-    // const
+    // work manager
     const val work = "2.5.0"
 
 }
@@ -126,6 +126,7 @@ object Libraries {
 
     // Work manager
     const val work = "androidx.work:work-runtime-ktx:${Versions.work}"
+    const val hiltWork = "androidx.hilt:hilt-work:${Versions.hilt_compiler}"
 }
 
 object TestLibraries {
