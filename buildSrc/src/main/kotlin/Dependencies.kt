@@ -52,6 +52,9 @@ object Versions {
     // Logging - timber
     const val timber = "5.0.1"
 
+    // const
+    const val work = "2.5.0"
+
 }
 
 object BuildPlugins {
@@ -120,6 +123,9 @@ object Libraries {
     const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
     const val coroutinesAndroid =
         "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
+
+    // Work manager
+    const val work = "androidx.work:work-runtime-ktx:${Versions.work}"
 }
 
 object TestLibraries {

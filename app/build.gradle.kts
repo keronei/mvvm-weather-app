@@ -129,6 +129,9 @@ android {
         implementation(Libraries.coroutines)
         implementation(Libraries.coroutinesAndroid)
 
+        // Work
+        implementation(Libraries.work)
+
         // Testing
         androidTestImplementation(TestLibraries.testRunner)
         androidTestImplementation(TestLibraries.espresso)
