@@ -11,8 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:padding="@dimen/dimen_20_dp"
         android:contentDescription="@string/toggle_favourite_button"
+        android:padding="@dimen/dimen_20_dp"
         android:src="@drawable/ic_baseline_favorite_border_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -50,16 +50,16 @@
         app:layout_constraintTop_toBottomOf="@id/country">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:padding="@dimen/dimen_20_dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="@dimen/dimen_20_dp">
 
             <ImageView
                 android:id="@+id/today_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/dimen_20_dp"
                 android:contentDescription="@string/today_s_weather_detail"
+                android:padding="@dimen/dimen_20_dp"
                 android:src="@drawable/a09d"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -81,8 +81,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dimen_20_dp"
-                android:drawableTint="@android:color/holo_green_light"
                 android:drawableStart="@drawable/ic_baseline_arrow_drop_down_24"
+                android:drawableTint="@android:color/holo_green_light"
                 app:layout_constraintBottom_toBottomOf="@id/today_icon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/today_high_temp"
@@ -102,9 +102,9 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:contentDescription="@string/morning_temp_icon"
                 android:src="@drawable/morning_icon"
-                android:layout_margin="5dp"
                 app:layout_constraintBottom_toTopOf="@id/morning_temp_line"
                 app:layout_constraintEnd_toEndOf="@id/morning_temp_line"
                 app:layout_constraintStart_toStartOf="@id/morning_temp_line"
@@ -123,9 +123,9 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:contentDescription="@string/daytime_temp_icon"
                 android:src="@drawable/daytime_icon"
-                android:layout_margin="5dp"
                 app:layout_constraintBottom_toTopOf="@id/daytime_temp_line"
                 app:layout_constraintEnd_toEndOf="@id/daytime_temp_line"
                 app:layout_constraintStart_toStartOf="@id/daytime_temp_line"
@@ -145,9 +145,9 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:contentDescription="@string/evening_temp_icon"
                 android:src="@drawable/evening_icon"
-                android:layout_margin="5dp"
                 app:layout_constraintBottom_toTopOf="@id/evening_temp_line"
                 app:layout_constraintEnd_toEndOf="@id/evening_temp_line"
                 app:layout_constraintStart_toStartOf="@id/evening_temp_line"
@@ -234,9 +234,10 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/seven_day_header"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/dimen_20_dp"
+        android:paddingTop="@dimen/dimen_10_dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/today_weather"

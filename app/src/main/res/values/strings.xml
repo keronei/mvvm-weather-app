@@ -11,4 +11,5 @@
   <string name="night_time_temp">Night time temp</string>
   <string name="temperature_icon">Temperature icon</string>
   <string name="toggle_favourite_button">Toggle favourite button.</string>
+  <string name="day_weather_icon">Day weather icon</string>
 </resources>
