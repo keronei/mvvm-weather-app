@@ -28,6 +28,7 @@ import com.keronei.weatherapp.utils.capitaliseFirstCharacter
 import com.keronei.weatherapp.utils.fromUnixTimestamp
 import com.keronei.weatherapp.utils.getDrawableWithName
 import com.keronei.weatherapp.utils.toCelsius
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 

@@ -15,7 +15,6 @@
  */
 package com.keronei.weatherapp.utils
 
-import android.Manifest
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.View
@@ -24,23 +23,19 @@ import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import com.keronei.weatherapp.application.Constants.KELVIN_CONVERSION
-import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
-
-fun appHasLocationPermission(context: Context): Boolean =
-    EasyPermissions.hasPermissions(context, Manifest.permission.ACCESS_COARSE_LOCATION)
 
 fun Double.toCelsius(): Double = (this - KELVIN_CONVERSION)
 
-inline fun SearchView.onQueryTextChanged(crossinline onQueryTextChanged: (String) -> Unit) {
+inline fun SearchView.onQueryTextChanged(crossinline onQueryTextChanged: (String?) -> Unit) {
     setOnQueryTextListener(object : SearchView.OnQueryTextListener {
         override fun onQueryTextSubmit(query: String): Boolean {
-            onQueryTextChanged(query)
             return false
         }
 
         override fun onQueryTextChange(newText: String?): Boolean {
-            return false
+            onQueryTextChanged(newText)
+            return true
         }
     })
 }
@@ -92,4 +87,4 @@ fun Fragment.showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
     requireContext().showToast(message, duration)
 }
 
-fun Int.fromUnixTimestamp(): Long = (this * 1000).toLong()
+fun Int.fromUnixTimestamp(): Long = this * 1000L

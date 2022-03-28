@@ -72,9 +72,6 @@ class CitiesRecyclerAdapter(
         } else {
             list.addAll(untouchedList)
         }
-
-        Timber.d("Adding ${list.size} matches.")
-
         submitList(list)
     }
 
