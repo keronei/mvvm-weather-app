@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.citydetails.DetailsFragment">
+
+        <ImageButton
+            android:id="@+id/btn_favourite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/toggle_favourite_button"
+            android:padding="@dimen/dimen_20_dp"
+            android:src="@drawable/ic_baseline_favorite_border_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/city_name"
+            style="@style/TextAppearance.Material3.HeadlineMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_favourite"
+            tools:text="Addis Ababa" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/city_name"
+            tools:text="Ethiopia" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/today_weather"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_10_dp"
+            android:layout_marginTop="@dimen/dimen_20_dp"
+            android:elevation="2dp"
+            app:cardCornerRadius="@dimen/dimen_10_dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/country">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/dimen_10_dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/outdated_data_status"
+                    tools:text="Data is outdated."
+                    android:textAlignment="center"
+                    android:drawableStart="@drawable/ic_baseline_warning_amber_24"
+                    android:textStyle="italic"
+                    android:visibility="invisible"
+                    android:layout_width="wrap_content"
+                    android:drawablePadding="@dimen/dimen_10_dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/today_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/today_s_weather_detail"
+                    android:padding="@dimen/dimen_20_dp"
+                    android:src="@drawable/a09d"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/outdated_data_status" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/today_high_temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dimen_20_dp"
+                    android:drawableStart="@drawable/ic_baseline_arrow_drop_up_24"
+                    app:layout_constraintBottom_toTopOf="@id/today_low_temp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/today_icon"
+                    tools:text="31 \u2103" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/today_low_temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dimen_20_dp"
+                    android:drawableStart="@drawable/ic_baseline_arrow_drop_down_24"
+                    android:drawableTint="@android:color/holo_green_light"
+                    app:layout_constraintBottom_toBottomOf="@id/today_icon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/today_high_temp"
+                    tools:text="16 \u2103" />
+
+                <ImageView
+                    android:id="@+id/temp_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_10_dp"
+                    android:contentDescription="@string/temperature_icon"
+                    android:src="@drawable/ic_baseline_device_thermostat_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/today_icon"
+                    app:tint="?attr/colorPrimary" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:contentDescription="@string/morning_temp_icon"
+                    android:src="@drawable/morning_icon"
+                    app:layout_constraintBottom_toTopOf="@id/morning_temp_line"
+                    app:layout_constraintEnd_toEndOf="@id/morning_temp_line"
+                    app:layout_constraintStart_toStartOf="@id/morning_temp_line"
+                    app:tint="?attr/colorPrimary" />
+
+                <View
+                    android:id="@+id/morning_temp_line"
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:foreground="?attr/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="@id/temp_icon"
+                    app:layout_constraintEnd_toStartOf="@id/daytime_temp_line"
+                    app:layout_constraintStart_toEndOf="@id/temp_icon"
+                    app:layout_constraintTop_toTopOf="@id/temp_icon" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:contentDescription="@string/daytime_temp_icon"
+                    android:src="@drawable/daytime_icon"
+                    app:layout_constraintBottom_toTopOf="@id/daytime_temp_line"
+                    app:layout_constraintEnd_toEndOf="@id/daytime_temp_line"
+                    app:layout_constraintStart_toStartOf="@id/daytime_temp_line"
+                    app:tint="?attr/colorPrimary" />
+
+                <View
+                    android:id="@+id/daytime_temp_line"
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="@dimen/dimen_10_dp"
+                    android:foreground="?attr/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="@id/morning_temp_line"
+                    app:layout_constraintEnd_toStartOf="@id/evening_temp_line"
+                    app:layout_constraintStart_toEndOf="@id/morning_temp_line"
+                    app:layout_constraintTop_toTopOf="@id/morning_temp_line" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:contentDescription="@string/evening_temp_icon"
+                    android:src="@drawable/evening_icon"
+                    app:layout_constraintBottom_toTopOf="@id/evening_temp_line"
+                    app:layout_constraintEnd_toEndOf="@id/evening_temp_line"
+                    app:layout_constraintStart_toStartOf="@id/evening_temp_line"
+                    app:tint="?attr/colorPrimary" />
+
+                <View
+                    android:id="@+id/evening_temp_line"
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="@dimen/dimen_10_dp"
+                    android:foreground="?attr/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="@id/daytime_temp_line"
+                    app:layout_constraintEnd_toStartOf="@id/night_temp_line"
+                    app:layout_constraintStart_toEndOf="@id/daytime_temp_line"
+                    app:layout_constraintTop_toTopOf="@id/daytime_temp_line" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:contentDescription="@string/night_time_temp"
+                    android:src="@drawable/ic_baseline_mode_night_24"
+                    app:layout_constraintBottom_toTopOf="@id/night_temp_line"
+                    app:layout_constraintEnd_toEndOf="@id/night_temp_line"
+                    app:layout_constraintStart_toStartOf="@id/night_temp_line"
+                    app:tint="?attr/colorPrimary" />
+
+                <View
+                    android:id="@+id/night_temp_line"
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="@dimen/dimen_10_dp"
+                    android:layout_marginEnd="@dimen/dimen_10_dp"
+                    android:foreground="?attr/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="@id/evening_temp_line"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/evening_temp_line"
+                    app:layout_constraintTop_toTopOf="@id/evening_temp_line" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/morning_temperature"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/morning_temp_line"
+                    app:layout_constraintStart_toStartOf="@id/morning_temp_line"
+                    app:layout_constraintTop_toBottomOf="@id/morning_temp_line"
+                    tools:text="10.5 \u2103" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/day_temperature"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/daytime_temp_line"
+                    app:layout_constraintStart_toStartOf="@id/daytime_temp_line"
+                    app:layout_constraintTop_toBottomOf="@id/daytime_temp_line"
+                    tools:text="23 \u2103" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/evening_temperature"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/evening_temp_line"
+                    app:layout_constraintStart_toStartOf="@id/evening_temp_line"
+                    app:layout_constraintTop_toBottomOf="@id/evening_temp_line"
+                    tools:text="18 \u2103" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/night_temperature"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/night_temp_line"
+                    app:layout_constraintStart_toStartOf="@id/night_temp_line"
+                    app:layout_constraintTop_toBottomOf="@id/night_temp_line"
+                    tools:text="10 \u2103" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/seven_day_header"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dimen_10_dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/today_weather"
+            tools:text="7 day forecast" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/seven_day_weather_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/dimen_20_dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/seven_day_header"
+            tools:listitem="@layout/daily_forecast" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

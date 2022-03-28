@@ -1,3 +1,18 @@
+/*
+ * Copyright 2022 GradleBuildPlugins
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.keronei.weatherapp.domain
 
 import com.keronei.weatherapp.core.Resource
@@ -6,6 +21,7 @@ import com.keronei.weatherapp.data.model.CityWithForecast
 import com.keronei.weatherapp.data.model.ForecastUpdate
 import com.keronei.weatherapp.data.remote.NetworkDataSource
 import com.keronei.weatherapp.utils.ConnectivityProvider
+import com.keronei.weatherapp.utils.fromUnixTimestamp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
@@ -40,7 +56,7 @@ class ForecastRepositoryImpl @Inject constructor(
             }
             val currentTimestamp = Calendar.getInstance().time
 
-            val validUntilDate = Date((lastDateTimestamp * 1000L))
+            val validUntilDate = Date((lastDateTimestamp.fromUnixTimestamp()))
 
             val forecastIsExpired = currentTimestamp.after(validUntilDate)
 
@@ -62,7 +78,7 @@ class ForecastRepositoryImpl @Inject constructor(
                                 trySend(result)
                             }
                             is Resource.Success -> {
-                                // First delete previous update
+                                // Update previous data
                                 if (localResource != null) {
                                     withContext(Dispatchers.IO) {
                                         forecastDao.updateForecast(

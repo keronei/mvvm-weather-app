@@ -87,7 +87,7 @@
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="@+id/icon"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_baseline_star_filled_24" />
+                tools:src="@drawable/ic_baseline_favorite_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

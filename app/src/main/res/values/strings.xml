@@ -1,7 +1,19 @@
 <resources>
-  <string name="app_name">Weather app</string>
+    <string name="app_name">Weather app</string>
     <string name="status_icon">Weather status icon</string>
     <string name="empty_temperature">–</string>
     <string name="favourite_status">Favourite status</string>
-  <string name="degree_celcius">%s \u2103</string>
+    <string name="degree_celcius">%s \u2103</string>
+    <string name="today_s_weather_detail">Today\'s weather detail</string>
+    <string name="morning_temp_icon">Morning temp icon</string>
+    <string name="daytime_temp_icon">Daytime temp icon</string>
+    <string name="evening_temp_icon">Evening temp icon</string>
+    <string name="night_time_temp">Night time temp</string>
+    <string name="temperature_icon">Temperature icon</string>
+    <string name="toggle_favourite_button">Toggle favourite button.</string>
+    <string name="day_weather_icon">Day weather icon</string>
+    <string name="no_detail">No detail to display.</string>
+    <string name="format_to_one_dp">%.1f</string>
+    <string name="no_data">No data.</string>
+    <string name="unable_to_switch_fav">Couldn\'t switch this.</string>
 </resources>

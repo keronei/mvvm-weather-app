@@ -1,16 +1,27 @@
+/*
+ * Copyright 2022 GradleBuildPlugins
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.keronei.weatherapp.application.di
 
 import android.content.Context
-import com.fasterxml.jackson.dataformat.csv.CsvMapper
-import com.fasterxml.jackson.dataformat.csv.CsvSchema
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.keronei.weatherapp.application.preference.DataStoreManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import java.io.FileReader
 import javax.inject.Singleton
 
 @Module
@@ -21,14 +32,4 @@ object AppModule {
     @Singleton
     fun providesDataStoreInstance(@ApplicationContext context: Context): DataStoreManager =
         DataStoreManager(context)
-
-    @Provides
-    @Singleton
-    fun providesCsvJacksonInstance(): CsvMapper {
-        return CsvMapper().apply {
-            registerModule(KotlinModule.Builder().build())
-        }
-
-
-    }
 }
