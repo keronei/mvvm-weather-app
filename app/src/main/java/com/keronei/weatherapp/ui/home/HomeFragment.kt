@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.keronei.weatherapp.R
 import com.keronei.weatherapp.application.preference.DataStoreManager
 import com.keronei.weatherapp.databinding.HomeFragmentBinding
@@ -85,7 +85,6 @@ class HomeFragment : Fragment() {
 
     private fun attemptToEstablishCountryAndLoadCities() {
         val country = CountryDeterminerUtil.getCountry(requireContext(), dataStoreManager)
-        Timber.d("Init with country as $country")
         citiesViewModel.loadFirstTwentyCitiesFromCountry(country ?: "")
     }
 
@@ -102,7 +101,9 @@ class HomeFragment : Fragment() {
                 cityPresentation.id
             )
         }
-        Toast.makeText(context, cityPresentation.name, Toast.LENGTH_SHORT).show()
+
+        citiesViewModel.setSelectedCity(cityPresentation)
+        findNavController().navigate(R.id.action_homeFragment_to_detailsFragment)
     }
 
     private fun observeCitiesList() = lifecycleScope.launchWhenStarted {

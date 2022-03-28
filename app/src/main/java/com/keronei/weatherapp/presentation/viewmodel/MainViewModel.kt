@@ -6,6 +6,7 @@ import com.keronei.weatherapp.data.model.CityWithForecast
 import com.keronei.weatherapp.domain.CitiesRepository
 import com.keronei.weatherapp.domain.ForecastRepository
 import com.keronei.weatherapp.domain.mappers.CityObjEntityToCityPresentationWithoutDataMapper
+import com.keronei.weatherapp.presentation.CityPresentation
 import com.keronei.weatherapp.ui.viewstate.ViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
@@ -31,6 +32,14 @@ class MainViewModel @Inject constructor(
     private val first20Cities = mutableListOf<CityWithForecast>()
 
     private var hasFetchedForFirst20Already = false
+
+    var selectedCity: CityWithForecast? = null
+
+    fun setSelectedCity(cityPresentation: CityPresentation) {
+        selectedCity = first20Cities.firstOrNull { cityForecast ->
+            cityForecast.cityObjEntity.identity == cityPresentation.id
+        }
+    }
 
     fun loadFirstTwentyCitiesFromCountry(country: String) {
         viewModelScope.launch(Dispatchers.Default) {
