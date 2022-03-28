@@ -1,28 +1,24 @@
-# GradleBuildPlugins
+# Weather App
 
-👀 Sample project that shows you how to configure plugins. After generating the project from this template, remember to customize detekt rules and spotless plugin if needed:
+This is a simple app that implements the following features
 
-- To customize detekt rules, edit the detekt.yml on your root directory
+- [x] List Cities - Comes with ~42K cities even without data connection.
+- [x] Connect to Internet and fetch data for up to 7 days ahead, with 48 hours of hourly weather updates
+- [x] Temperatures on the listed cities when you have connected to internet in the past 48 hours.
+- [x] Details of city weather with listing upto 7 days ahead
+- [x] Favouriting city from detail view, gets listed on the top
+- [x] Notification of hourly weather update for every favourited city.
+- [x] Ready for extension with cities inbuilt cities - only top 20 are displayed.
 
-- Inside the spotless folder, on your root directory - add your license file
+### Running
+You will need a `key.properties` file with `API_KEY=abckey`, you can get the key from [openweathermap](https://openweathermap.org/)
+Configuration for playstore key if need be
 
-- Remember to refactor the package name :rocket:
+### Screenshots
 
-### Prerequisites
+<img src="https://user-images.githubusercontent.com/17080971/160416550-997e4bd1-836d-4db6-8f8e-e09788458ab6.png" width="250" height="470"/> <img src="https://user-images.githubusercontent.com/17080971/160416564-97eed052-6869-4fff-9e31-c1539a66a63a.png" width="250" height="470"/> <img src="https://user-images.githubusercontent.com/17080971/160416578-3afcb8a9-5844-452e-be14-a26fb97544d5.png" width="250" height="470"/>
+<img src="https://user-images.githubusercontent.com/17080971/160416589-342b5dea-22f7-41b6-843b-5e9b38d4d657.png" width="250" height="470"/>
 
-Before every commit, make sure you run the following command:
-
-```shell script
-./codeAnalysis
-```
-
-To check for dependency updates, run the following command:
-
-```shell script
-./gradlew dependencyUpdate
-```
-
-Refer to this [issue](https://github.com/gradle/gradle/issues/10248), if you get any issues running the lint commands on the terminal :rocket:
 
 ## Tech-stack
 
@@ -36,4 +32,4 @@ Refer to this [issue](https://github.com/gradle/gradle/issues/10248), if you get
         * [jacoco](https://github.com/jacoco/jacoco) - a Code Coverage Library.
         * [Gradle Versions](https://github.com/ben-manes/gradle-versions-plugin) - provides a task to determine which dependencies have updates. Additionally, the plugin checks for updates to Gradle itself.
         
-For reference, here's a detailed explanation of the approach of the plugin configuration in this project - [A Day with an Elephant in the Room: Configuring Gradle Plugins.](https://medium.com/@harunwangereka/a-day-with-an-elephant-in-the-room-configuring-gradle-plugins-3331b0be64c7)
+### Thanks to [SimpleMaps](https://simplemaps.com/) for the comprehensive city data.
