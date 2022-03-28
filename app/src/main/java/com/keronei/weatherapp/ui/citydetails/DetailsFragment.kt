@@ -59,7 +59,7 @@ class DetailsFragment : Fragment() {
                 }
 
             } else {
-                Toast.makeText(requireContext(), "Could switch this.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Couldn't switch this.", Toast.LENGTH_SHORT).show()
             }
         }
     }

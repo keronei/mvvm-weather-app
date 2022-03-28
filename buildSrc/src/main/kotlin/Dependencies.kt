@@ -13,7 +13,6 @@ object Versions {
     const val navigationFragment = "2.3.5"
 
 
-
     // EasyPermissions
     const val easyPermission = "3.0.0"
 
@@ -53,8 +52,6 @@ object Versions {
     // Logging - timber
     const val timber = "5.0.1"
 
-    // jackson
-    const val jackson = "2.10.1"
 }
 
 object BuildPlugins {
@@ -84,7 +81,8 @@ object Libraries {
     const val toolsBuildGradle = "com.android.tools.build:gradle:${Versions.gradlePlugin}"
     const val activityKtx = "androidx.activity:activity-ktx:${Versions.activityKtx}"
     const val fragmentKtx = "androidx.fragment:fragment-ktx:${Versions.activityKtx}"
-    const val navigationFragment = "androidx.navigation:navigation-fragment-ktx:${Versions.navigationFragment}"
+    const val navigationFragment =
+        "androidx.navigation:navigation-fragment-ktx:${Versions.navigationFragment}"
 
 
     // DataStore
@@ -99,7 +97,8 @@ object Libraries {
     const val room_testing = "androidx.room:room-testing:${Versions.room_version}"
 
     // Hilt - DI
-    const val hiltGradlePlugin =  "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt_version}"
+    const val hiltGradlePlugin =
+        "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt_version}"
     const val daggerHilt = "com.google.dagger:hilt-android:${Versions.hilt_version}"
     const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt_version}"
     const val hiltViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hilt_viewmodel}"
@@ -112,22 +111,15 @@ object Libraries {
     const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor"
 
     // Conversion
-    const val gson  = "com.squareup.retrofit2:converter-gson:${Versions.gson}"
+    const val gson = "com.squareup.retrofit2:converter-gson:${Versions.gson}"
 
     // LogCat
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
 
     // Coroutines
     const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
-    const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
-
-    // Jackson
-//    const val jacksonCore = "com.fasterxml.jackson.core:jackson-core:${Versions.jackson}"
-//    const val jacksonAnnotations = "com.fasterxml.jackson.core:jackson-annotations:${Versions.jackson}"
-//    const val jacksonDatabind = "com.fasterxml.jackson.core:jackson-databind:${Versions.jackson}"
-    const val jacksonKotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:2.13.2"
-    const val jacksonDataFormat = "com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.13.2"
-
+    const val coroutinesAndroid =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
 }
 
 object TestLibraries {
@@ -135,7 +127,7 @@ object TestLibraries {
     const val junit4 = "junit:junit:${Versions.junit4}"
     const val testRunner = "androidx.test:runner:${Versions.testRunner}"
     const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"
-    const val ext_test_junit4= "androidx.test.ext:junit-ktx:${Versions.ext_junit}"
+    const val ext_test_junit4 = "androidx.test.ext:junit-ktx:${Versions.ext_junit}"
     const val core_testing = "androidx.arch.core:core-testing:${Versions.lifecycle}"
 }
 
