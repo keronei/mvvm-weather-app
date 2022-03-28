@@ -16,6 +16,9 @@ Configuration for playstore key if need be
 
 ### Screenshots
 
+<img src="https://user-images.githubusercontent.com/17080971/160416550-997e4bd1-836d-4db6-8f8e-e09788458ab6.png" width="250" height="470"/> <img src="https://user-images.githubusercontent.com/17080971/160416564-97eed052-6869-4fff-9e31-c1539a66a63a.png" width="250" height="470"/> <img src="https://user-images.githubusercontent.com/17080971/160416578-3afcb8a9-5844-452e-be14-a26fb97544d5.png" width="250" height="470"/>
+<img src="https://user-images.githubusercontent.com/17080971/160416589-342b5dea-22f7-41b6-843b-5e9b38d4d657.png" width="250" height="470"/>
+
 
 ## Tech-stack
 
