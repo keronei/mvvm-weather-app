@@ -3,9 +3,7 @@ package com.keronei.weatherapp.data.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 data class CityObjEntity(
     val lat: Double,
