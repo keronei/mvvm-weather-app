@@ -117,12 +117,16 @@ class HomeFragment : Fragment() {
 
             when (viewState) {
                 ViewState.Empty -> {
+                    // Data is prefilled, only empty when searching.
                 }
                 is ViewState.Error -> {
+                    homeFragmentBinding.loadingIndicator.hide()
                 }
                 ViewState.Loading -> {
+                    homeFragmentBinding.loadingIndicator.show()
                 }
                 is ViewState.Success -> {
+                    homeFragmentBinding.loadingIndicator.hide()
                     onCitiesListLoaded(viewState.citiesPresentations)
                 }
             }

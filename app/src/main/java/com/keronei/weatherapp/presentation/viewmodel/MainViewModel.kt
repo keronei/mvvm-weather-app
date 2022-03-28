@@ -23,6 +23,7 @@ import androidx.work.*
 import com.keronei.weatherapp.application.Constants
 import com.keronei.weatherapp.application.Constants.FIRST_COUNT
 import com.keronei.weatherapp.application.Constants.NOTIFICATION_MANAGER_TAG
+import com.keronei.weatherapp.application.Constants.WORK_ID
 import com.keronei.weatherapp.core.worker.NotificationWorker
 import com.keronei.weatherapp.data.model.CityWithForecast
 import com.keronei.weatherapp.domain.CitiesRepository
@@ -78,9 +79,13 @@ class MainViewModel @Inject constructor(
     private fun initialiseJobToNotifyOfFavourite() {
         val notifyTemperatureWorkRequest =
             PeriodicWorkRequestBuilder<NotificationWorker>(1, TimeUnit.HOURS)
-                .addTag(NOTIFICATION_MANAGER_TAG)
+                .addTag(NOTIFICATION_MANAGER_TAG).build()
 
-        notifyTemperatureWorkRequest.build()
+        workManager.enqueueUniquePeriodicWork(
+            WORK_ID,
+            ExistingPeriodicWorkPolicy.REPLACE,
+            notifyTemperatureWorkRequest
+        )
     }
 
 

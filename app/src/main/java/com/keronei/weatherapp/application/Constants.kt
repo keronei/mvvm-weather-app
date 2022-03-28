@@ -43,4 +43,6 @@ object Constants {
     const val CITY_ID = "cityId"
 
     const val NOTIFICATION_MANAGER_TAG = "notify-city-tag"
+
+    const val WORK_ID = "notify-work"
 }
