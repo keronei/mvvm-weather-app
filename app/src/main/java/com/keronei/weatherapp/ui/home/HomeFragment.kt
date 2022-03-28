@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -20,7 +21,6 @@ import com.keronei.weatherapp.utils.CountryDeterminerUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -103,7 +103,12 @@ class HomeFragment : Fragment() {
         }
 
         citiesViewModel.setSelectedCity(cityPresentation)
-        findNavController().navigate(R.id.action_homeFragment_to_detailsFragment)
+
+        if (citiesViewModel.selectedCity != null) {
+            findNavController().navigate(R.id.action_homeFragment_to_detailsFragment)
+        }else{
+            Toast.makeText(context, getString(R.string.no_detail), Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun observeCitiesList() = lifecycleScope.launchWhenStarted {
@@ -117,7 +122,6 @@ class HomeFragment : Fragment() {
                 ViewState.Loading -> {
                 }
                 is ViewState.Success -> {
-                    Timber.d("Added ${viewState.citiesPresentations.size} to adapter.")
                     onCitiesListLoaded(viewState.citiesPresentations)
                 }
             }

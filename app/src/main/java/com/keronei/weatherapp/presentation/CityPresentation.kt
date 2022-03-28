@@ -7,6 +7,7 @@ data class CityPresentation(
     val name: String,
     val lat: Double,
     val lon: Double,
+    val isFavourite : Boolean,
     val country: String,
     val temperature: Double?,
     val iconName: String,

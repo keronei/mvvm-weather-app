@@ -1,4 +1,4 @@
-package com.keronei.weatherapp.ui.home
+package com.keronei.weatherapp.ui.citydetails
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,18 +8,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.keronei.weatherapp.R
-import com.keronei.weatherapp.databinding.CityItemBinding
-import com.keronei.weatherapp.presentation.CityPresentation
-import timber.log.Timber
+import com.keronei.weatherapp.data.model.Daily
+import com.keronei.weatherapp.databinding.DailyForecastBinding
+import java.text.SimpleDateFormat
 import java.util.*
 
-class CitiesRecyclerAdapter(
-    private val itemSelected: (region: CityPresentation) -> Unit,
+class DailyForecastRecyclerAdapter(
     private val context: Context
 ) :
-    ListAdapter<CityPresentation, CitiesRecyclerAdapter.RegionsViewHolder>(FilmDiffUtil()) {
-
-    var untouchedList = listOf<CityPresentation>()
+    ListAdapter<Daily, DailyForecastRecyclerAdapter.RegionsViewHolder>(FilmDiffUtil()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -27,87 +24,62 @@ class CitiesRecyclerAdapter(
     ): RegionsViewHolder = RegionsViewHolder.from(parent)
 
     override fun onBindViewHolder(holder: RegionsViewHolder, position: Int) {
-        val cityPresentation = getItem(position)
-        holder.bind(cityPresentation, context)
+        val daily = getItem(position)
+        holder.bind(daily, context)
 
-        holder.binding.root.setOnClickListener {
-            itemSelected(cityPresentation)
-        }
     }
 
-    fun modifyList(list: List<CityPresentation>) {
-        untouchedList = list
-        submitList(list)
-    }
-
-    fun filter(query: CharSequence?) {
-        val list = mutableListOf<CityPresentation>()
-
-        if (!query.isNullOrEmpty()) {
-            list.addAll(
-                untouchedList.filter { item ->
-                    item.name.lowercase(Locale.getDefault())
-                        .contains(query.toString().lowercase(Locale.getDefault()))
-
-                            || item.country.lowercase(Locale.getDefault())
-                        .contains(query.toString().lowercase(Locale.getDefault()))
-                }
-            )
-        } else {
-            list.addAll(untouchedList)
-        }
-
-        Timber.d("Adding ${list.size} matches.")
-
-        submitList(list)
-    }
-
-    class RegionsViewHolder(val binding: CityItemBinding) :
+    class RegionsViewHolder(private val binding: DailyForecastBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(cityPresentation: CityPresentation, context: Context) {
-            binding.city = cityPresentation
+        fun bind(day: Daily, context: Context) {
+            val parser = SimpleDateFormat("dd MMM", Locale.US)
 
-            if (cityPresentation.temperature != null) {
-                val formattedTemp = "%.1f".format(cityPresentation.temperature)
-                binding.temperature.text = context.getString(R.string.degree_celcius, formattedTemp)
-            }
+            binding.dayDate.text = parser.format(Date(day.dt * 1000L))
+            binding.dayMaxTemperature.text =
+                context.getString(R.string.format_to_one_dp).format(day.temp.max - 273.15)
+            binding.dayMinTemperature.text =
+                context.getString(R.string.format_to_one_dp).format(day.temp.min - 273.15)
 
-            if (cityPresentation.iconName != "") {
-                binding.icon.setImageDrawable(
+            if (day.weather.isNotEmpty()) {
+                binding.dayProminentIcon.setImageDrawable(
                     AppCompatResources.getDrawable(
                         context,
                         context.resources.getIdentifier(
-                            cityPresentation.iconName,
+                            "a${day.weather.first().icon}",
                             "drawable",
                             context.packageName
                         )
                     )
                 )
-            }
 
-            binding.executePendingBindings()
+                binding.dayWeatherDescription.text =
+                    day.weather.first().description.replaceFirstChar {
+                        if (it.isLowerCase()) it.titlecase(
+                            Locale.getDefault()
+                        ) else it.toString()
+                    }
+            }
         }
 
         companion object {
             fun from(parent: ViewGroup): RegionsViewHolder {
                 val inflater = LayoutInflater.from(parent.context)
-                val itemFilmBinding = CityItemBinding.inflate(inflater, parent, false)
-
+                val itemFilmBinding = DailyForecastBinding.inflate(inflater, parent, false)
                 return RegionsViewHolder(itemFilmBinding)
             }
         }
     }
 
-    class FilmDiffUtil : DiffUtil.ItemCallback<CityPresentation>() {
+    class FilmDiffUtil : DiffUtil.ItemCallback<Daily>() {
         override fun areItemsTheSame(
-            oldItem: CityPresentation,
-            newItem: CityPresentation
-        ): Boolean = oldItem.id == newItem.id
+            oldItem: Daily,
+            newItem: Daily
+        ): Boolean = oldItem.dt == newItem.dt
 
         override fun areContentsTheSame(
-            oldItem: CityPresentation,
-            newItem: CityPresentation
+            oldItem: Daily,
+            newItem: Daily
         ): Boolean = oldItem == newItem
     }
 }

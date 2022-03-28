@@ -19,5 +19,5 @@ interface CityDao {
     fun queryLimitedCitiesCount(count: Int, country: String): Flow<List<CityWithForecast>>
 
     @Update(entity = CityObjEntity::class)
-    fun toggleFavourite(city: CityObjEntity): Int
+    suspend fun toggleFavourite(city: CityObjEntity): Int
 }

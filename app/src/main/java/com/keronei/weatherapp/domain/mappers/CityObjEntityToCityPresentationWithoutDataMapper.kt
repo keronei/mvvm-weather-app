@@ -41,6 +41,7 @@ class CityObjEntityToCityPresentationWithoutDataMapper :
             input.cityObjEntity.city_ascii,
             format("%.4f", input.cityObjEntity.lat).toDouble(),
             format("%.4f", input.cityObjEntity.lng).toDouble(),
+            input.cityObjEntity.favourite,
             input.cityObjEntity.country,
             temperature,
             iconName,

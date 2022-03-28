@@ -2,6 +2,7 @@ package com.keronei.weatherapp.ui.home
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.DiffUtil
@@ -71,6 +72,15 @@ class CitiesRecyclerAdapter(
             if (cityPresentation.temperature != null) {
                 val formattedTemp = "%.1f".format(cityPresentation.temperature)
                 binding.temperature.text = context.getString(R.string.degree_celcius, formattedTemp)
+            }
+
+            if (cityPresentation.isFavourite) {
+                binding.favourite.visibility = View.VISIBLE
+                binding.favourite.setImageDrawable(
+                    AppCompatResources.getDrawable(context, R.drawable.ic_baseline_favorite_24)
+                )
+            } else {
+                binding.favourite.visibility = View.GONE
             }
 
             if (cityPresentation.iconName != "") {
