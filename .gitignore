@@ -15,5 +15,6 @@
 .cxx
 buildSrc/build/*
 buildSrc/.gradle/*
+app/release/
 
 keys.properties
