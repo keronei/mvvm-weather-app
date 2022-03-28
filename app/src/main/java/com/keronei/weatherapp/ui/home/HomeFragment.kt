@@ -76,6 +76,15 @@ class HomeFragment : Fragment() {
         observeCitiesList()
 
         implementSearch()
+
+        refreshList()
+    }
+
+    private fun refreshList() {
+        homeFragmentBinding.swipeToRefresh.setOnRefreshListener {
+            citiesViewModel.refreshData()
+            homeFragmentBinding.swipeToRefresh.isRefreshing = false
+        }
     }
 
     private fun implementSearch() {
@@ -98,7 +107,7 @@ class HomeFragment : Fragment() {
 
     private fun citySelected(cityPresentation: CityPresentation) {
         lifecycleScope.launch {
-            citiesViewModel.fetchForecastDataForCity(
+            citiesViewModel.fetchForCityWithId(
                 cityPresentation.id
             )
         }
@@ -118,6 +127,7 @@ class HomeFragment : Fragment() {
             when (viewState) {
                 ViewState.Empty -> {
                     // Data is prefilled, only empty when searching.
+                    homeFragmentBinding.loadingIndicator.hide()
                 }
                 is ViewState.Error -> {
                     homeFragmentBinding.loadingIndicator.hide()
@@ -128,6 +138,7 @@ class HomeFragment : Fragment() {
                 is ViewState.Success -> {
                     homeFragmentBinding.loadingIndicator.hide()
                     onCitiesListLoaded(viewState.citiesPresentations)
+                    homeFragmentBinding.swipeToRefresh.isRefreshing = false
                 }
             }
         }

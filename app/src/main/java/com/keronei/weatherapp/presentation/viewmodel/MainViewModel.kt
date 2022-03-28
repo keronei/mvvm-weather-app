@@ -24,6 +24,7 @@ import com.keronei.weatherapp.application.Constants
 import com.keronei.weatherapp.application.Constants.FIRST_COUNT
 import com.keronei.weatherapp.application.Constants.NOTIFICATION_MANAGER_TAG
 import com.keronei.weatherapp.application.Constants.WORK_ID
+import com.keronei.weatherapp.core.Resource
 import com.keronei.weatherapp.core.worker.NotificationWorker
 import com.keronei.weatherapp.data.model.CityWithForecast
 import com.keronei.weatherapp.domain.CitiesRepository
@@ -39,6 +40,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.sql.Time
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -119,24 +121,29 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun refreshData() {
+        fetchCitiesWeatherData()
+    }
+
     private fun fetchCitiesWeatherData() {
         hasFetchedForFirst20Already = true
         if (first20Cities.isNotEmpty()) {
             viewModelScope.launch {
                 first20Cities.forEach { city ->
-                    fetchForecastDataForCity(city.cityObjEntity.identity)
+                    fetchForecastDataForCity(city)
                 }
             }
         }
     }
 
-    fun fetchForecastDataForCity(cityId: Int) {
-        val city: CityWithForecast =
-            first20Cities.first { thisCity -> thisCity.cityObjEntity.identity == cityId }
+    fun fetchForCityWithId(cityId: Int) {
+        fetchForecastDataForCity(first20Cities.first { cityWithForecast -> cityWithForecast.cityObjEntity.identity == cityId })
+    }
 
+    fun fetchForecastDataForCity(city: CityWithForecast) {
         viewModelScope.launch {
             try {
-                forecastRepository.fetchCityForecast(city)
+                forecastRepository.fetchCityForecast(city).collect()
             } catch (exception: CancellationException) {
                 throw exception
             } catch (exception: Exception) {
