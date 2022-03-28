@@ -22,6 +22,7 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
+import com.keronei.weatherapp.R
 import com.keronei.weatherapp.application.Constants.KELVIN_CONVERSION
 import java.util.*
 
@@ -88,3 +89,8 @@ fun Fragment.showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
 }
 
 fun Int.fromUnixTimestamp(): Long = this * 1000L
+
+fun Double.trimDecimalThenToString(context: Context): String {
+    val formattedAsString = context.getString(R.string.format_to_one_dp).format(this)
+    return context.getString(R.string.degree_celcius, formattedAsString)
+}

@@ -24,10 +24,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.keronei.weatherapp.R
 import com.keronei.weatherapp.data.model.Daily
 import com.keronei.weatherapp.databinding.DailyForecastBinding
-import com.keronei.weatherapp.utils.capitaliseFirstCharacter
-import com.keronei.weatherapp.utils.fromUnixTimestamp
-import com.keronei.weatherapp.utils.getDrawableWithName
-import com.keronei.weatherapp.utils.toCelsius
+import com.keronei.weatherapp.utils.*
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -54,17 +51,10 @@ class DailyForecastRecyclerAdapter(
             val parser = SimpleDateFormat("EEE, dd MMM", Locale.US)
 
             binding.dayDate.text = parser.format(Date(day.dt.fromUnixTimestamp()))
-            val dayMaxTemptInString =
-                context.getString(R.string.format_to_one_dp).format(day.temp.max.toCelsius())
-            binding.dayMaxTemperature.text =
-                context.getString(R.string.degree_celcius, dayMaxTemptInString)
-            val dayMinTempInString =
-                context.getString(R.string.format_to_one_dp).format(day.temp.min.toCelsius())
-            binding.dayMinTemperature.text =
-                context.getString(
-                    R.string.degree_celcius,
-                    dayMinTempInString
-                )
+
+            binding.dayMaxTemperature.text = day.temp.max.toCelsius().trimDecimalThenToString(context)
+
+            binding.dayMinTemperature.text = day.temp.min.toCelsius().trimDecimalThenToString(context)
 
             if (day.weather.isNotEmpty()) {
                 binding.dayProminentIcon.setImageDrawable(

@@ -29,6 +29,7 @@ import com.keronei.weatherapp.databinding.DetailsFragmentBinding
 import com.keronei.weatherapp.presentation.viewmodel.MainViewModel
 import com.keronei.weatherapp.utils.*
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import java.util.*
 
 @AndroidEntryPoint
@@ -91,7 +92,7 @@ class DetailsFragment : Fragment() {
             val currentTimestamp = calendar.timeInMillis
             detailBinding.outdatedDataStatus.hideIf { latestInfoTimestamp > currentTimestamp }
 
-            calendar.set(Calendar.HOUR_OF_DAY, 0)
+            calendar.set(Calendar.HOUR, 0)
             calendar.set(Calendar.MINUTE, 0)
             calendar.set(Calendar.SECOND, 0)
             calendar.set(Calendar.MILLISECOND, 0)
@@ -101,6 +102,23 @@ class DetailsFragment : Fragment() {
 
             val prominentIconString = todayData?.weather?.first()?.icon
             val displayIcon = if (prominentIconString != null) "a$prominentIconString" else null
+
+            if (todayData?.temp != null) {
+                val temp = todayData.temp
+                detailBinding.morningTemperature.text =
+                    temp.morn.toCelsius().trimDecimalThenToString(requireContext())
+                detailBinding.dayTemperature.text =
+                    temp.day.toCelsius().trimDecimalThenToString(requireContext())
+                detailBinding.eveningTemperature.text =
+                    temp.eve.toCelsius().trimDecimalThenToString(requireContext())
+                detailBinding.nightTemperature.text =
+                    temp.night.toCelsius().trimDecimalThenToString(requireContext())
+
+                detailBinding.todayHighTemp.text =
+                    temp.max.toCelsius().trimDecimalThenToString(requireContext())
+                detailBinding.todayLowTemp.text =
+                    temp.min.toCelsius().trimDecimalThenToString(requireContext())
+            }
 
             detailBinding.todayIcon.setImageDrawable(
                 getDrawableWithName(requireContext(), displayIcon ?: "a50d")
