@@ -3,6 +3,7 @@ package com.keronei.weatherapp.domain.mappers
 import com.keronei.weatherapp.core.mapper.Mapper
 import com.keronei.weatherapp.data.model.CityWithForecast
 import com.keronei.weatherapp.presentation.CityPresentation
+import com.keronei.weatherapp.utils.toCelsius
 import okhttp3.internal.format
 import timber.log.Timber
 import java.util.*
@@ -24,7 +25,7 @@ class CityObjEntityToCityPresentationWithoutDataMapper :
             val hourUpdate = fc.hourly.firstOrNull { hourly -> hourly.dt * 1000L == startHour }
 
             if (hourUpdate != null) {
-                temperature = (hourUpdate.temp - 273.15) // to Celsius
+                temperature = hourUpdate.temp.toCelsius()
                 val rawIc = hourUpdate.weather.firstOrNull()?.icon
                 iconName = if (rawIc != null) {
                     "a$rawIc"

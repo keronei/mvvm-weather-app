@@ -18,6 +18,8 @@ import com.keronei.weatherapp.presentation.CityPresentation
 import com.keronei.weatherapp.presentation.viewmodel.MainViewModel
 import com.keronei.weatherapp.ui.viewstate.ViewState
 import com.keronei.weatherapp.utils.CountryDeterminerUtil
+import com.keronei.weatherapp.utils.onQueryTextChanged
+import com.keronei.weatherapp.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -32,7 +34,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var homeFragmentBinding: HomeFragmentBinding
 
-    lateinit var searchView: androidx.appcompat.widget.SearchView
+    lateinit var searchView: SearchView
 
     @Inject
     lateinit var dataStoreManager: DataStoreManager
@@ -63,24 +65,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun implementSearch() {
-        searchView.setOnCloseListener {
-            attemptToEstablishCountryAndLoadCities()
-            return@setOnCloseListener false
+        searchView.onQueryTextChanged { searchQuery ->
+            citiesRecyclerAdapter.filter(searchQuery)
         }
-
-        // Post query text as it comes.
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                citiesRecyclerAdapter.filter(newText)
-                return true
-            }
-
-        })
     }
 
     private fun attemptToEstablishCountryAndLoadCities() {
@@ -106,8 +93,8 @@ class HomeFragment : Fragment() {
 
         if (citiesViewModel.selectedCity != null) {
             findNavController().navigate(R.id.action_homeFragment_to_detailsFragment)
-        }else{
-            Toast.makeText(context, getString(R.string.no_detail), Toast.LENGTH_SHORT).show()
+        } else {
+            showToast(getString(R.string.no_detail))
         }
     }
 

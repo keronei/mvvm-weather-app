@@ -28,8 +28,8 @@
 
         <ImageView
             android:id="@+id/day_prominent_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:contentDescription="@string/day_weather_icon"
             android:src="@drawable/a02d" />
 
@@ -38,7 +38,7 @@
             style="@style/TextAppearance.Material3.BodyMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/dimen_10_dp"
+            android:padding="@dimen/dimen_5_dp"
             tools:text="Scattered clouds" />
 
         <androidx.appcompat.widget.AppCompatTextView

@@ -6,6 +6,10 @@ object Constants {
 
     const val ONE_CALL_FORECAST_ENDPOINT = "/data/2.5/onecall"
 
+    const val FIRST_COUNT = 20
+
+    const val KELVIN_CONVERSION = 273.15
+
     // String constants
     const val COUNTRY = "user_country"
 

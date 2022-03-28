@@ -3,13 +3,15 @@ package com.keronei.weatherapp.ui.citydetails
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.keronei.weatherapp.R
 import com.keronei.weatherapp.data.model.Daily
 import com.keronei.weatherapp.databinding.DailyForecastBinding
+import com.keronei.weatherapp.utils.capitaliseFirstCharacter
+import com.keronei.weatherapp.utils.getDrawableWithName
+import com.keronei.weatherapp.utils.toCelsius
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -36,29 +38,25 @@ class DailyForecastRecyclerAdapter(
             val parser = SimpleDateFormat("dd MMM", Locale.US)
 
             binding.dayDate.text = parser.format(Date(day.dt * 1000L))
+            val dayMaxTemptInString =
+                context.getString(R.string.format_to_one_dp).format(day.temp.max.toCelsius())
             binding.dayMaxTemperature.text =
-                context.getString(R.string.format_to_one_dp).format(day.temp.max - 273.15)
+                context.getString(R.string.degree_celcius, dayMaxTemptInString)
+            val dayMinTempInString =
+                context.getString(R.string.format_to_one_dp).format(day.temp.min.toCelsius())
             binding.dayMinTemperature.text =
-                context.getString(R.string.format_to_one_dp).format(day.temp.min - 273.15)
+                context.getString(
+                    R.string.degree_celcius,
+                    dayMinTempInString
+                )
 
             if (day.weather.isNotEmpty()) {
                 binding.dayProminentIcon.setImageDrawable(
-                    AppCompatResources.getDrawable(
-                        context,
-                        context.resources.getIdentifier(
-                            "a${day.weather.first().icon}",
-                            "drawable",
-                            context.packageName
-                        )
-                    )
+                   getDrawableWithName(context, "a${day.weather.first().icon}")
                 )
 
                 binding.dayWeatherDescription.text =
-                    day.weather.first().description.replaceFirstChar {
-                        if (it.isLowerCase()) it.titlecase(
-                            Locale.getDefault()
-                        ) else it.toString()
-                    }
+                    day.weather.first().description.capitaliseFirstCharacter()
             }
         }
 

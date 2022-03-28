@@ -6,6 +6,7 @@ import com.keronei.weatherapp.data.model.CityWithForecast
 import com.keronei.weatherapp.data.model.ForecastUpdate
 import com.keronei.weatherapp.data.remote.NetworkDataSource
 import com.keronei.weatherapp.utils.ConnectivityProvider
+import com.keronei.weatherapp.utils.fromUnixTimestamp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
@@ -40,7 +41,7 @@ class ForecastRepositoryImpl @Inject constructor(
             }
             val currentTimestamp = Calendar.getInstance().time
 
-            val validUntilDate = Date((lastDateTimestamp * 1000L))
+            val validUntilDate = Date((lastDateTimestamp.fromUnixTimestamp()))
 
             val forecastIsExpired = currentTimestamp.after(validUntilDate)
 
@@ -62,7 +63,7 @@ class ForecastRepositoryImpl @Inject constructor(
                                 trySend(result)
                             }
                             is Resource.Success -> {
-                                // First delete previous update
+                                // Update previous data
                                 if (localResource != null) {
                                     withContext(Dispatchers.IO) {
                                         forecastDao.updateForecast(
