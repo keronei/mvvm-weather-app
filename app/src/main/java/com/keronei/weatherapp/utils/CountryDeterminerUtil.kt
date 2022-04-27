@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 GradleBuildPlugins
+ * Copyright 2022 Keronei Lincoln
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
  */
 package com.keronei.weatherapp.utils
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.telephony.TelephonyManager
 import com.keronei.weatherapp.application.Constants.COUNTRY

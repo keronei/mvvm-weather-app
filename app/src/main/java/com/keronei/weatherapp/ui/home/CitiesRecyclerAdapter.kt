@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 GradleBuildPlugins
+ * Copyright 2022 Keronei Lincoln
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.keronei.weatherapp.R
 import com.keronei.weatherapp.databinding.CityItemBinding
 import com.keronei.weatherapp.presentation.CityPresentation
-import timber.log.Timber
 import java.util.*
 
 class CitiesRecyclerAdapter(

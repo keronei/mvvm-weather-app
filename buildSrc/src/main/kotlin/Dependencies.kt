@@ -21,6 +21,7 @@ object Versions {
 
     // Version codes for all the test libraries
     const val junit4 = "4.13.2"
+    const val junit_ktx = "1.1.2"
     const val testRunner = "1.4.1-alpha03"
     const val espresso = "3.5.0-alpha03"
     const val annotation = "1.4.0"
@@ -132,6 +133,7 @@ object Libraries {
 object TestLibraries {
     //any test library is added here
     const val junit4 = "junit:junit:${Versions.junit4}"
+    const val junit_ktx = "androidx.test.ext:junit-ktx:${Versions.junit_ktx}"
     const val testRunner = "androidx.test:runner:${Versions.testRunner}"
     const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"
     const val ext_test_junit4 = "androidx.test.ext:junit-ktx:${Versions.ext_junit}"

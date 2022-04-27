@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 GradleBuildPlugins
+ * Copyright 2022 Keronei Lincoln
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@ import kotlinx.coroutines.flow.callbackFlow
 @ExperimentalCoroutinesApi
 class FakeForecastRepositoryImpl : ForecastRepository {
     override suspend fun fetchCityForecast(cityWithForecast: CityWithForecast): Flow<Resource<Forecast>> = callbackFlow {
+        trySend(Resource.Loading)
+
         val validResponse = MockData.getForecastResponse()
 
         trySend(Resource.Success(validResponse))

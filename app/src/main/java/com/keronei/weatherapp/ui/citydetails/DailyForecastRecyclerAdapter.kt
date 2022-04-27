@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 GradleBuildPlugins
+ * Copyright 2022 Keronei Lincoln
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,11 +21,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.keronei.weatherapp.R
 import com.keronei.weatherapp.data.model.Daily
 import com.keronei.weatherapp.databinding.DailyForecastBinding
 import com.keronei.weatherapp.utils.*
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 

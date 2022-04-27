@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 GradleBuildPlugins
+ * Copyright 2022 Keronei Lincoln
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,26 @@ class FakeCitiesRepositoryImpl : CitiesRepository {
 
     private val citiesStoreWithForecast = mutableListOf<CityWithForecast>()
 
+    init {
+        citiesStore.add(
+            CityObjEntity(
+                30.0,
+                1.0,
+                "ke",
+                "Kenya",
+                1,
+                "Machakos",
+                "MC"
+            )
+        )
+
+        citiesStoreWithForecast.addAll(
+            citiesStore.map { cityObjEntity ->
+                CityWithForecast(cityObjEntity, null)
+            }
+        )
+    }
+
     override suspend fun addCity(cityObjEntity: CityObjEntity): Long {
         citiesStore.add(cityObjEntity)
         return citiesStore.indexOf(cityObjEntity).toLong()
@@ -33,13 +53,23 @@ class FakeCitiesRepositoryImpl : CitiesRepository {
 
     override fun queryAllCities(): Flow<List<CityWithForecast>> = flowOf(citiesStoreWithForecast)
 
+    override fun queryFavouritedCities(): Flow<List<CityWithForecast>> {
+        return flowOf(
+            citiesStoreWithForecast.filter { cityWithForecast ->
+                cityWithForecast.cityObjEntity.favourite
+            }
+        )
+    }
+
     override fun queryLimitedCitiesCount(
         count: Int,
         country: String
     ): Flow<List<CityWithForecast>> {
         return flowOf(
-            citiesStoreWithForecast.filter { cityWithForecast -> cityWithForecast.cityObjEntity.iso2 == country }
-                .take(count)
+            citiesStoreWithForecast.filter { cityWithForecast ->
+                cityWithForecast.cityObjEntity.iso2.lowercase() == country.lowercase()
+            }
+                .take(count).toList()
         )
     }
 

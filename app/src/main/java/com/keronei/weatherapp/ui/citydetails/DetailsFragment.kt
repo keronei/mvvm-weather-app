@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 GradleBuildPlugins
+ * Copyright 2022 Keronei Lincoln
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,6 @@ import com.keronei.weatherapp.databinding.DetailsFragmentBinding
 import com.keronei.weatherapp.presentation.viewmodel.MainViewModel
 import com.keronei.weatherapp.utils.*
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import java.util.*
 
 @AndroidEntryPoint

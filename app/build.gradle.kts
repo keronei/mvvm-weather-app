@@ -137,8 +137,9 @@ android {
         androidTestImplementation(TestLibraries.testRunner)
         androidTestImplementation(TestLibraries.espresso)
         testImplementation(TestLibraries.junit4)
-        implementation(TestLibraries.ext_test_junit4)
-        implementation(TestLibraries.core_testing)
+        testImplementation(TestLibraries.junit_ktx)
+        testImplementation(TestLibraries.ext_test_junit4)
+        testImplementation(TestLibraries.core_testing)
     }
 }
 dependencies {
