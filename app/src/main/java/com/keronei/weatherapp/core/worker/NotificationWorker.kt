@@ -30,8 +30,12 @@ import com.keronei.weatherapp.utils.trimDecimalThenToString
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.lang.Exception
 import java.util.*
 
 @HiltWorker
@@ -48,23 +52,34 @@ class NotificationWorker @AssistedInject constructor(
          * Check is there's alerts to be displayed.
          */
 
-        coroutineScope.launch {
-            citiesRepository.queryFavouritedCities().collect { favourited ->
+        try {
+           coroutineScope.launch {
+                val favourited = citiesRepository.queryFavouritedCities().first()
+
                 /**
                  * Get all favourited AND with data
                  */
                 val favoritedCities =
                     favourited.filter { cityWithForecast -> cityWithForecast.forecast != null }
 
-                if (favoritedCities.isNotEmpty()) {
-                    val citiesForNotification =
-                        favoritedCities.filter { city -> city.forecast!!.hourly.all { hourly -> hourly.dt.fromUnixTimestamp() == getCurrentHour().timeInMillis } }
+                if (favoritedCities.isEmpty()) return@launch
+
+                val citiesForNotification =
+                        favoritedCities.filter { city ->
+                            city.forecast!!.hourly.all { hourly ->
+                                hourly.dt.fromUnixTimestamp() == getCurrentHour().timeInMillis
+                            }
+                        }
 
                     citiesForNotification.forEach { city ->
+                        Timber.d("City to be notified : ${city.cityObjEntity.city_ascii}")
                         displayNotification(applicationContext, city)
                     }
-                }
+
             }
+        } catch (exception : Exception){
+            exception.printStackTrace()
+            return Result.failure()
         }
 
         /**
