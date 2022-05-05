@@ -35,10 +35,12 @@ import com.keronei.weatherapp.utils.CountryDeterminerUtil
 import com.keronei.weatherapp.utils.onQueryTextChanged
 import com.keronei.weatherapp.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
