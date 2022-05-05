@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.keronei.weatherapp.R
 import com.keronei.weatherapp.databinding.CityItemBinding
 import com.keronei.weatherapp.presentation.CityPresentation
+import timber.log.Timber
 import java.util.*
 
 class CitiesRecyclerAdapter(
@@ -95,16 +96,20 @@ class CitiesRecyclerAdapter(
             }
 
             if (cityPresentation.iconName != "") {
-                binding.icon.setImageDrawable(
-                    AppCompatResources.getDrawable(
-                        context,
-                        context.resources.getIdentifier(
-                            cityPresentation.iconName,
-                            "drawable",
-                            context.packageName
+                try {
+                    binding.icon.setImageDrawable(
+                        AppCompatResources.getDrawable(
+                            context,
+                            context.resources.getIdentifier(
+                                cityPresentation.iconName,
+                                "drawable",
+                                context.packageName
+                            )
                         )
                     )
-                )
+                }catch (exception : Exception){
+                    exception.printStackTrace()
+                }
             }
 
             binding.executePendingBindings()
