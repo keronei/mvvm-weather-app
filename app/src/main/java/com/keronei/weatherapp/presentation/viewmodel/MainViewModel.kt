@@ -18,7 +18,9 @@ package com.keronei.weatherapp.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.keronei.weatherapp.application.Constants.FIRST_COUNT
+import com.keronei.weatherapp.core.Resource
 import com.keronei.weatherapp.data.model.CityWithForecast
+import com.keronei.weatherapp.data.model.Forecast
 import com.keronei.weatherapp.domain.CitiesRepository
 import com.keronei.weatherapp.domain.ForecastRepository
 import com.keronei.weatherapp.domain.mappers.CityObjEntityToCityPresentationWithoutDataMapper
@@ -28,11 +30,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -92,31 +92,36 @@ class MainViewModel @Inject constructor(
         if (first20Cities.isNotEmpty()) {
             viewModelScope.launch {
                 first20Cities.forEach { city ->
-                    fetchForecastDataForCity(city)
+                    fetchForecastDataForCity(city).collect()
                 }
             }
         }
     }
 
     fun fetchForCityWithId(cityId: Int) {
-        fetchForecastDataForCity(
-            first20Cities.first { cityWithForecast ->
-                cityWithForecast.cityObjEntity.identity == cityId
+        try {
+            viewModelScope.launch {
+                fetchForecastDataForCity(
+                    first20Cities.first { cityWithForecast ->
+                        cityWithForecast.cityObjEntity.identity == cityId
+                    }
+                ).collect()
             }
-        )
+
+        }catch (exception: Exception){
+            // when no matching element is found.
+            exception.printStackTrace()
+        }
     }
 
-    fun fetchForecastDataForCity(city: CityWithForecast) = channelFlow {
-        viewModelScope.launch {
+    fun fetchForecastDataForCity(city: CityWithForecast) = flow {
             try {
                 forecastRepository.fetchCityForecast(city).collect { returnedResource ->
-                    trySend(returnedResource)
+                    emit(returnedResource)
                 }
-            } catch (exception: CancellationException) {
-                throw exception
             } catch (exception: Exception) {
                 exception.printStackTrace()
             }
         }
-    }
+
 }
