@@ -21,16 +21,10 @@ import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LiveData
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkInfo
-import androidx.work.WorkManager
 import com.keronei.weatherapp.R
-import com.keronei.weatherapp.core.worker.NotificationWorker
 import com.keronei.weatherapp.databinding.ActivityMainBinding
+import com.keronei.weatherapp.ui.workerlifecycle.WorkerUptime
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.concurrent.TimeUnit
 
 /**
  *  Main Activity which is the Launcher Activity
@@ -41,28 +35,12 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var activityMainViewBinding: ActivityMainBinding
 
-    private lateinit var outputWorkInfos: LiveData<List<WorkInfo>>
-
-    private val workManager = WorkManager.getInstance(applicationContext)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityMainViewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainViewBinding.root)
-
-        // Launch work manager job if there's any favourite
-        // Also, if there's favourite city
-        outputWorkInfos = workManager.getWorkInfosByTagLiveData(Constants.NOTIFICATION_MANAGER_TAG)
-
-        val workAlreadyStarted = outputWorkInfos.value?.filter { workInfo ->
-            workInfo.tags.contains(Constants.NOTIFICATION_MANAGER_TAG)
-        }
-
-        if (workAlreadyStarted.isNullOrEmpty()) {
-            initialiseJobToNotifyOfFavourite()
-        }
-
         createNotificationChannel()
+        lifecycle.addObserver(WorkerUptime(applicationContext))
     }
 
     private fun createNotificationChannel() {
@@ -80,15 +58,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initialiseJobToNotifyOfFavourite() {
-        val notifyTemperatureWorkRequest =
-            PeriodicWorkRequestBuilder<NotificationWorker>(1, TimeUnit.HOURS)
-                .addTag(Constants.NOTIFICATION_MANAGER_TAG).build()
 
-        workManager.enqueueUniquePeriodicWork(
-            Constants.WORK_ID,
-            ExistingPeriodicWorkPolicy.REPLACE,
-            notifyTemperatureWorkRequest
-        )
-    }
+
+
 }
