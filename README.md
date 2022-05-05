@@ -8,7 +8,7 @@ This is a simple app that implements the following features
 - [x] Details of city weather with listing upto 7 days ahead
 - [x] Favouriting city from detail view, gets listed on the top
 - [x] Notification of hourly weather update for every favourited city.
-- [x] Ready for extension with cities inbuilt cities - only top 20 are displayed.
+- [x] Ready for extension with inbuilt cities - only top 20 are displayed.
 
 ### Running
 You will need a `key.properties` file with `API_KEY=abckey`, you can get the key from [openweathermap](https://openweathermap.org/)
@@ -18,6 +18,15 @@ Configuration for playstore key if need be
 
 <img src="https://user-images.githubusercontent.com/17080971/160416550-997e4bd1-836d-4db6-8f8e-e09788458ab6.png" width="250" height="470"/> <img src="https://user-images.githubusercontent.com/17080971/160416564-97eed052-6869-4fff-9e31-c1539a66a63a.png" width="250" height="470"/> <img src="https://user-images.githubusercontent.com/17080971/160416578-3afcb8a9-5844-452e-be14-a26fb97544d5.png" width="250" height="470"/>
 <img src="https://user-images.githubusercontent.com/17080971/160416589-342b5dea-22f7-41b6-843b-5e9b38d4d657.png" width="250" height="470"/>
+
+## Architecture Components Used
+- [x] Work Manager to deliver hourly notifications for favourite cities
+- [x] ViewModel to provide data to UI and preserve data through configuration changes
+- [x] Room to store cities and their forecast data and ensure availability even when offline.
+- [x] Data binding to observe city info directly from the ViewModel
+- [x] Navigation
+
+## App Architecture Overview
 
 
 ## Tech-stack
