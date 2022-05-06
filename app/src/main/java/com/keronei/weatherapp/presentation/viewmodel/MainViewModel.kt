@@ -27,11 +27,8 @@ import com.keronei.weatherapp.domain.mappers.CityObjEntityToCityPresentationWith
 import com.keronei.weatherapp.presentation.CityPresentation
 import com.keronei.weatherapp.ui.viewstate.ViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
@@ -47,11 +44,15 @@ class MainViewModel @Inject constructor(
     private val _cities = MutableStateFlow<ViewState>(value = ViewState.Empty)
     val cities: StateFlow<ViewState> = _cities
 
-    private val first20Cities = mutableListOf<CityWithForecast>()
+    private val _singleCityForecast = MutableStateFlow<Resource<Forecast>>(value = Resource.Empty)
+    val singleCityWithForecast: StateFlow<Resource<Forecast>> = _singleCityForecast
+
+    private var first20Cities = mutableListOf<CityWithForecast>()
 
     private var hasFetchedForFirst20Already = false
 
     var selectedCity: CityWithForecast? = null
+
 
     fun setSelectedCity(cityPresentation: CityPresentation) {
         selectedCity = first20Cities.firstOrNull { cityForecast ->
@@ -59,7 +60,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun loadFirstTwentyCitiesFromCountry(country: String) {
+    fun loadFirstTwentyCitiesFromCountry(country: String) =
         viewModelScope.launch(Dispatchers.Default) {
             citiesRepository.queryLimitedCitiesCount(
                 FIRST_COUNT,
@@ -70,18 +71,17 @@ class MainViewModel @Inject constructor(
                     CityObjEntityToCityPresentationWithoutDataMapper().mapList(
                         citiesObject, viewModelScope
                     )
-                first20Cities.clear()
 
-                first20Cities.addAll(citiesObject)
+                first20Cities = citiesObject as MutableList<CityWithForecast>
 
                 _cities.emit(ViewState.Success(citiesAsPresentationWithData))
 
                 if (!hasFetchedForFirst20Already) {
                     fetchCitiesWeatherData()
                 }
+
             }
         }
-    }
 
     fun refreshData() {
         fetchCitiesWeatherData()
@@ -90,34 +90,33 @@ class MainViewModel @Inject constructor(
     private fun fetchCitiesWeatherData() {
         hasFetchedForFirst20Already = true
         if (first20Cities.isNotEmpty()) {
-                first20Cities.forEach { city ->
-                    fetchForecastDataForCity(city)
-                }
+            first20Cities.forEach { city ->
+                fetchForecastDataForCity(city)
+            }
         }
     }
 
-    fun fetchForCityWithId(cityId: Int) {
+    fun fetchForCityWithId(cityId: Int) =
         try {
-                fetchForecastDataForCity(
-                    first20Cities.first { cityWithForecast ->
-                        cityWithForecast.cityObjEntity.identity == cityId
-                    }
-                )
+            fetchForecastDataForCity(
+                first20Cities.first { cityWithForecast ->
+                    cityWithForecast.cityObjEntity.identity == cityId
+                }
+            )
 
-        }catch (exception: Exception){
+        } catch (exception: Exception) {
             // when no matching element is found.
             exception.printStackTrace()
         }
-    }
 
-    fun fetchForecastDataForCity(city: CityWithForecast) {
-        viewModelScope.launch {
-            try {
-                forecastRepository.fetchCityForecast(city).collect()
-            } catch (exception: Exception) {
-                exception.printStackTrace()
+    fun fetchForecastDataForCity(city: CityWithForecast) = viewModelScope.launch {
+        try {
+            forecastRepository.fetchCityForecast(city).collect { result ->
+                _singleCityForecast.emit(result)
             }
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+            Resource.Failure(exception)
         }
-        }
-
+    }
 }
