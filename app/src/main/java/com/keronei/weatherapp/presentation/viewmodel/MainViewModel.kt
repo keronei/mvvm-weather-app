@@ -90,23 +90,19 @@ class MainViewModel @Inject constructor(
     private fun fetchCitiesWeatherData() {
         hasFetchedForFirst20Already = true
         if (first20Cities.isNotEmpty()) {
-            viewModelScope.launch {
                 first20Cities.forEach { city ->
-                    fetchForecastDataForCity(city).collect()
+                    fetchForecastDataForCity(city)
                 }
-            }
         }
     }
 
     fun fetchForCityWithId(cityId: Int) {
         try {
-            viewModelScope.launch {
                 fetchForecastDataForCity(
                     first20Cities.first { cityWithForecast ->
                         cityWithForecast.cityObjEntity.identity == cityId
                     }
-                ).collect()
-            }
+                )
 
         }catch (exception: Exception){
             // when no matching element is found.
@@ -114,14 +110,14 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun fetchForecastDataForCity(city: CityWithForecast) = flow {
+    fun fetchForecastDataForCity(city: CityWithForecast) {
+        viewModelScope.launch {
             try {
-                forecastRepository.fetchCityForecast(city).collect { returnedResource ->
-                    emit(returnedResource)
-                }
+                forecastRepository.fetchCityForecast(city).collect()
             } catch (exception: Exception) {
                 exception.printStackTrace()
             }
+        }
         }
 
 }
