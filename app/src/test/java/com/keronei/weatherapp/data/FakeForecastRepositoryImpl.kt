@@ -13,11 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.keronei.weatherapp.domain
+package com.keronei.weatherapp.data
 
 import com.keronei.weatherapp.core.Resource
 import com.keronei.weatherapp.data.model.CityWithForecast
 import com.keronei.weatherapp.data.model.Forecast
+import com.keronei.weatherapp.domain.ForecastRepository
+import com.keronei.weatherapp.domain.MockData
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow

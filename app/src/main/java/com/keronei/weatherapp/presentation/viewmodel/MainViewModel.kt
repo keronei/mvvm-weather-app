@@ -23,7 +23,7 @@ import com.keronei.weatherapp.data.model.CityWithForecast
 import com.keronei.weatherapp.data.model.Forecast
 import com.keronei.weatherapp.domain.CitiesRepository
 import com.keronei.weatherapp.domain.ForecastRepository
-import com.keronei.weatherapp.domain.mappers.CityObjEntityToCityPresentationWithoutDataMapper
+import com.keronei.weatherapp.data.mappers.CityObjEntityToCityPresentationWithoutDataMapper
 import com.keronei.weatherapp.presentation.CityPresentation
 import com.keronei.weatherapp.ui.viewstate.ViewState
 import dagger.hilt.android.lifecycle.HiltViewModel

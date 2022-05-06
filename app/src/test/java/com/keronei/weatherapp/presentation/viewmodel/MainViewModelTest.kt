@@ -20,8 +20,8 @@ import com.keronei.weatherapp.core.Resource
 import com.keronei.weatherapp.data.model.CityObjEntity
 import com.keronei.weatherapp.data.model.CityWithForecast
 import com.keronei.weatherapp.data.model.Forecast
-import com.keronei.weatherapp.domain.FakeCitiesRepositoryImpl
-import com.keronei.weatherapp.domain.FakeForecastRepositoryImpl
+import com.keronei.weatherapp.data.FakeCitiesRepositoryImpl
+import com.keronei.weatherapp.data.FakeForecastRepositoryImpl
 import com.keronei.weatherapp.domain.MockData
 import com.keronei.weatherapp.ui.viewstate.ViewState
 import kotlinx.coroutines.ExperimentalCoroutinesApi

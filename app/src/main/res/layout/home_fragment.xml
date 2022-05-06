@@ -26,12 +26,14 @@
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/loading_indicator"
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
+                android:layout_height="3dp"
+                android:layout_margin="10dp"
                 android:visibility="gone"
                 android:indeterminate="true"
                 app:indicatorColor="?attr/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/recycler_cities"
                 app:layout_constraintTop_toBottomOf="@id/search_view_all_cities" />
 
             <androidx.recyclerview.widget.RecyclerView

@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.keronei.weatherapp.domain
+package com.keronei.weatherapp.data.local
 
-import com.keronei.weatherapp.data.local.CityDao
 import com.keronei.weatherapp.data.model.CityObjEntity
 import com.keronei.weatherapp.data.model.CityWithForecast
+import com.keronei.weatherapp.domain.CitiesRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

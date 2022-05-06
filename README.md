@@ -16,8 +16,8 @@ Configuration for playstore key if need be
 
 ### Screenshots
 
-<img src="https://user-images.githubusercontent.com/17080971/160416550-997e4bd1-836d-4db6-8f8e-e09788458ab6.png" width="250" height="470"/> <img src="https://user-images.githubusercontent.com/17080971/160416564-97eed052-6869-4fff-9e31-c1539a66a63a.png" width="250" height="470"/> <img src="https://user-images.githubusercontent.com/17080971/160416578-3afcb8a9-5844-452e-be14-a26fb97544d5.png" width="250" height="470"/>
-<img src="https://user-images.githubusercontent.com/17080971/160416589-342b5dea-22f7-41b6-843b-5e9b38d4d657.png" width="250" height="470"/>
+<img src="documentation/screenshot1.png" width="250" height="470"/> <img src="documentation/screenshot2.png" width="250" height="470"/> <img src="documentation/screenshot3.png" width="250" height="470"/>
+<img src="documentation/screenshot4.png" width="250" height="470"/><img src="documentation/screenshot5.png" width="250" height="470"/>
 
 ## Architecture Components Used
 - [x] Work Manager to deliver hourly notifications for favourite cities
@@ -30,6 +30,40 @@ Configuration for playstore key if need be
 ## App Architecture Overview
 
 <img src="documentation/architecture.png" width="521" height="451" alt="App architecture illustration"/>
+
+## Used Layers
+
+### 1. Domain
+The core layer that the app is built around. This is independent of other layers which allows the models and business logic to be independent of other layers.
+Components of domain layer include:
+- __Models__: Defines the core structure of the data that will be used within the application.
+
+- __Repositories__: Interfaces that are implemented in data access implementations.
+
+### 2. Data
+This is responsible for selecting the proper data source for the domain layer. It contains the implementations of the repositories declared in the domain layer.
+
+Components of data layer include:
+- __Models__
+
+  - __DTO Models__: Defines POJO(Data classes) of network responses - e.g. Forecast.
+
+  - __Entity Models__: Defines the schema of Room(SQLite) database.
+
+- __Repositories__: Responsible for exposing data to the domain layer.
+
+- __Mappers__: They perform data transformation between ```domain```, ```dto``` and ```entity``` models.
+
+- __Remote__: This is responsible for performing network operations e.g. defining API endpoints using [Retrofit](https://square.github.io/retrofit/).
+    - __APIService__: Provides access to the API endpoints via network.
+    - __Network Data Source__:  Provides data from the network, you can also have LocalDataSource for handling data from the local database.
+
+- __Local__: This is responsible for performing caching operations using [Room](https://developer.android.com/training/data-storage/room).
+    - __DAO Interfaces__: wrappers provided by Room for writing queries on the database. 
+
+    
+### 3. Presentation
+The ```presentation``` layer contains components involved in showing information to the user. The main part of this layer are the views and viewModels.
 
 
 ## Tech-stack

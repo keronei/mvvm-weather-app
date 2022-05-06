@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.keronei.weatherapp.domain.mappers
+package com.keronei.weatherapp.data.mappers
 
 import com.keronei.weatherapp.core.mapper.Mapper
 import com.keronei.weatherapp.data.model.CityWithForecast

@@ -26,6 +26,7 @@ interface CityDao {
     @Insert(onConflict = REPLACE)
     suspend fun createCity(city: CityObjEntity): Long
 
+    @Transaction
     @Query("SELECT * FROM CityObjEntity ORDER BY identity ASC")
     fun queryAllCities(): Flow<List<CityWithForecast>>
 
