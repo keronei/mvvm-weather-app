@@ -52,7 +52,8 @@ class ForecastRepositoryImpl @Inject constructor(
             val lastDateTimestamp: Int = if (localResource == null) {
                 0
             } else {
-                localResource.daily.maxByOrNull { day -> day.dt }?.dt ?: 0
+                // The last hour of the 48 hours.
+                localResource.hourly.maxByOrNull { hour -> hour.dt }?.dt ?: 0
             }
             val currentTimestamp = Calendar.getInstance().time
 
