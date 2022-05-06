@@ -54,14 +54,15 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `when loadFirstTwentyCitiesFromCountry is called the cities should not be empty`() = runBlocking {
+    fun `when loadFirstTwentyCitiesFromCountry is called the cities should not be empty`() =
+        runBlocking {
 
-        mainViewModel.loadFirstTwentyCitiesFromCountry("ke")
+            mainViewModel.loadFirstTwentyCitiesFromCountry("ke")
 
-        val viewStateWithCity = mainViewModel.cities.drop(1).first()
+            val viewStateWithCity = mainViewModel.cities.drop(1).first()
 
-        assertThat("View state should not be empty.", viewStateWithCity != ViewState.Empty)
-    }
+            assertThat("View state should not be empty.", viewStateWithCity != ViewState.Empty)
+        }
 
     @Test
     fun `when fetchForecastForCity is called forecast data is returned`() = runBlocking {
@@ -78,12 +79,12 @@ class MainViewModelTest {
             MockData.getForecastResponse()
         )
 
-        val forecast =
-            mainViewModel.fetchForecastDataForCity(predefinedForecast)
+        mainViewModel.fetchForecastDataForCity(predefinedForecast)
+        mainViewModel.loadFirstTwentyCitiesFromCountry("ke")
 
-        when (val actualForecastData = forecast.drop(1).first()) {
+        when (val forecast = mainViewModel.singleCityWithForecast.value) {
             is Resource.Success -> {
-                returnedForecastObject = actualForecastData.data
+                returnedForecastObject = forecast.data
             }
 
             else -> {
