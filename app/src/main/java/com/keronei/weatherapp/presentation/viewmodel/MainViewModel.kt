@@ -29,7 +29,6 @@ import com.keronei.weatherapp.ui.viewstate.ViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -52,7 +51,6 @@ class MainViewModel @Inject constructor(
     private var hasFetchedForFirst20Already = false
 
     var selectedCity: CityWithForecast? = null
-
 
     fun setSelectedCity(cityPresentation: CityPresentation) {
         selectedCity = first20Cities.firstOrNull { cityForecast ->
@@ -79,7 +77,6 @@ class MainViewModel @Inject constructor(
                 if (!hasFetchedForFirst20Already) {
                     fetchCitiesWeatherData()
                 }
-
             }
         }
 
@@ -103,7 +100,6 @@ class MainViewModel @Inject constructor(
                     cityWithForecast.cityObjEntity.identity == cityId
                 }
             )
-
         } catch (exception: Exception) {
             // when no matching element is found.
             exception.printStackTrace()

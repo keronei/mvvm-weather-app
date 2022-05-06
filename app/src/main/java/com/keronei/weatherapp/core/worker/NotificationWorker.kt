@@ -79,7 +79,6 @@ class NotificationWorker @AssistedInject constructor(
              */
 
             return Result.success()
-
         } catch (exception: Exception) {
             exception.printStackTrace()
             return Result.failure()
@@ -104,7 +103,8 @@ class NotificationWorker @AssistedInject constructor(
             cityWithForecast.cityObjEntity.city_ascii
         )
 
-        val temperatureAsStringMessage = context.getString(R.string.actual_update_text,
+        val temperatureAsStringMessage = context.getString(
+            R.string.actual_update_text,
             hour.temp.toCelsius().trimDecimalThenToString(context),
             hour.weather.first().description.replaceFirstChar { letter -> letter.uppercase() }
         )

@@ -29,8 +29,10 @@ import com.keronei.weatherapp.databinding.DetailsFragmentBinding
 import com.keronei.weatherapp.presentation.viewmodel.MainViewModel
 import com.keronei.weatherapp.utils.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.util.*
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class DetailsFragment : Fragment() {
 

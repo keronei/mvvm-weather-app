@@ -2,12 +2,12 @@
 
 This is a simple app that implements the following features
 
-- [x] List Cities - Comes with ~42K cities even without data connection.
+- [x] List Cities - Comes with ~42K cities even without data connection(only 20 displayed).
 - [x] Connect to Internet and fetch data for up to 7 days ahead, with 48 hours of hourly weather updates
 - [x] Temperatures on the listed cities when you have connected to internet in the past 48 hours.
-- [x] Details of city weather with listing upto 7 days ahead
+- [x] Details of city weather with listing up to 7 days ahead
 - [x] Favouriting city from detail view, gets listed on the top
-- [x] Notification of hourly weather update for every favourited city.
+- [x] Notification of hourly weather update for every favourite city.
 - [x] Ready for extension with inbuilt cities - only top 20 are displayed.
 
 ### Running
@@ -25,6 +25,7 @@ Configuration for playstore key if need be
 - [x] Room to store cities and their forecast data and ensure availability even when offline.
 - [x] Data binding to observe city info directly from the ViewModel
 - [x] Navigation
+- [x] LifeCycle to know when it's sunrise/sunset for hourly notifications
 
 ## App Architecture Overview
 

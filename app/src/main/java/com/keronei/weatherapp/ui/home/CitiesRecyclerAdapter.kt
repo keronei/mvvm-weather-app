@@ -26,7 +26,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.keronei.weatherapp.R
 import com.keronei.weatherapp.databinding.CityItemBinding
 import com.keronei.weatherapp.presentation.CityPresentation
-import timber.log.Timber
 import java.util.*
 
 class CitiesRecyclerAdapter(
@@ -107,7 +106,7 @@ class CitiesRecyclerAdapter(
                             )
                         )
                     )
-                }catch (exception : Exception){
+                } catch (exception: Exception) {
                     exception.printStackTrace()
                 }
             }
