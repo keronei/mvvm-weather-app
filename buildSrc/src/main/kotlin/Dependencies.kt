@@ -56,7 +56,7 @@ object Versions {
     const val timber = "5.0.1"
 
     // work manager
-    const val work = "2.5.0"
+    const val work = "2.7.0"
 
 }
 
@@ -109,7 +109,7 @@ object Libraries {
     const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt_version}"
     const val hiltViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hilt_viewmodel}"
     const val hiltAndroidxCompiler = "androidx.hilt:hilt-compiler:${Versions.hilt_compiler}"
-    //const val daggerHiltCompiler = "com.google.dagger:hilt-compiler:${Versions.dagger_hilt_compiler}"
+    const val daggerHiltCompiler = "com.google.dagger:hilt-compiler:1.0.0"
 
     // Network
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
