@@ -10,6 +10,7 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.keronei.weatherapp.application.Constants
+import com.keronei.weatherapp.application.Constants.NOTIFICATION_MANAGER_TAG
 import com.keronei.weatherapp.core.worker.NotificationWorker
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -26,22 +27,17 @@ class WorkerUptime(private val context: Context) : LifecycleEventObserver {
 
                 // Launch work manager job if there's any favourite
                 // Also, if there's favourite city
-                outputWorkInfo = workManager.getWorkInfosByTagLiveData(Constants.NOTIFICATION_MANAGER_TAG)
-
-                val workAlreadyStarted = outputWorkInfo.value?.filter { workInfo ->
-                    workInfo.tags.contains(Constants.NOTIFICATION_MANAGER_TAG)
-                }
-
-                if (workAlreadyStarted.isNullOrEmpty()) {
-                    initialiseJobToNotifyOfFavourite(workManager)
-                }
+                outputWorkInfo = workManager.getWorkInfosByTagLiveData(NOTIFICATION_MANAGER_TAG)
 
                 Timber.d("OnCreate: workers - $outputWorkInfo")
             }
 
             Lifecycle.Event.ON_RESUME -> {
-                Timber.d("OnResume: to pause notifications")
-                // TODO pause notifications
+                pauseWorkerIfRunning()
+            }
+
+            Lifecycle.Event.ON_PAUSE ->{
+                startWorkerIfNotRunning()
             }
 
             else -> {
@@ -52,10 +48,30 @@ class WorkerUptime(private val context: Context) : LifecycleEventObserver {
         }
     }
 
+    private fun pauseWorkerIfRunning(){
+        val workAlreadyStarted = outputWorkInfo.value?.filter { workInfo ->
+            workInfo.tags.contains(NOTIFICATION_MANAGER_TAG)
+        }
+
+        if (workAlreadyStarted?.isNotEmpty() == true) {
+            workManager.cancelAllWorkByTag(NOTIFICATION_MANAGER_TAG)
+        }
+    }
+
+    private fun startWorkerIfNotRunning(){
+        val workAlreadyStarted = outputWorkInfo.value?.filter { workInfo ->
+            workInfo.tags.contains(NOTIFICATION_MANAGER_TAG)
+        }
+
+        if (workAlreadyStarted.isNullOrEmpty()) {
+            initialiseJobToNotifyOfFavourite(workManager)
+        }
+    }
+
     private fun initialiseJobToNotifyOfFavourite(workManager: WorkManager) {
         val notifyTemperatureWorkRequest =
             PeriodicWorkRequestBuilder<NotificationWorker>(1, TimeUnit.HOURS)
-                .addTag(Constants.NOTIFICATION_MANAGER_TAG).build()
+                .addTag(NOTIFICATION_MANAGER_TAG).build()
 
         workManager.enqueueUniquePeriodicWork(
             Constants.WORK_ID,
