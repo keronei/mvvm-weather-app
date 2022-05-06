@@ -34,7 +34,7 @@ android {
         targetSdk = AndroidSdk.targetSdkVersion
         versionCode = AndroidSdk.versionCode
         versionName = AndroidSdk.versionName
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.keronei.weatherapp.testapp.CustomTestRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -132,14 +132,25 @@ android {
         // Work
         implementation(Libraries.work)
         implementation(Libraries.hiltWork)
+        // handles work in background
+        // https://medium.com/androiddevelopers/workmanager-2-5-0-stable-released-701b668cd064
+        implementation(Libraries.multiProcessWorkManager)
+
+        // Kapt testing
+        kaptAndroidTest(Libraries.hiltCompiler)
 
         // Testing
         androidTestImplementation(TestLibraries.testRunner)
         androidTestImplementation(TestLibraries.espresso)
-        testImplementation(TestLibraries.junit4)
+        androidTestImplementation(TestLibraries.junit4)
         testImplementation(TestLibraries.junit_ktx)
         testImplementation(TestLibraries.ext_test_junit4)
+        androidTestImplementation(TestLibraries.core)
+        testImplementation(TestLibraries.core)
         testImplementation(TestLibraries.core_testing)
+        androidTestImplementation(TestLibraries.core_testing)
+        androidTestImplementation(TestLibraries.workmanager_testing)
+        androidTestImplementation(TestLibraries.hilt_android_testing)
     }
 }
 dependencies {
