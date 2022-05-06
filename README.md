@@ -29,6 +29,8 @@ Configuration for playstore key if need be
 
 ## App Architecture Overview
 
+<img src="documentation/architecture.png" width="521" height="451" alt="App architecture illustration"/>
+
 
 ## Tech-stack
 
