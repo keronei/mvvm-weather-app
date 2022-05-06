@@ -21,6 +21,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.keronei.weatherapp.R
 import com.keronei.weatherapp.application.Constants.NOTIFICATION_CHANNEL_ID
 import com.keronei.weatherapp.data.model.CityWithForecast
 import com.keronei.weatherapp.domain.CitiesRepository
@@ -30,11 +31,8 @@ import com.keronei.weatherapp.utils.trimDecimalThenToString
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.lang.Exception
 import java.util.*
 
@@ -53,31 +51,29 @@ class NotificationWorker @AssistedInject constructor(
          */
 
         try {
-           coroutineScope.launch {
-                val favourited = citiesRepository.queryFavouritedCities().first()
+            coroutineScope.launch {
+                citiesRepository.queryFavouritedCities().collect { favourited ->
 
-                /**
-                 * Get all favourited AND with data
-                 */
-                val favoritedCities =
-                    favourited.filter { cityWithForecast -> cityWithForecast.forecast != null }
+                    /**
+                     * Get all favourite AND with data
+                     */
+                    val favoriteCities =
+                        favourited.filter { cityWithForecast -> cityWithForecast.forecast != null }
 
-                if (favoritedCities.isEmpty()) return@launch
+                    if (favoriteCities.isEmpty()) return@collect
 
-                val citiesForNotification =
-                        favoritedCities.filter { city ->
-                            city.forecast!!.hourly.all { hourly ->
-                                hourly.dt.fromUnixTimestamp() == getCurrentHour().timeInMillis
-                            }
+                    val citiesForNotification =
+                        favoriteCities.filter { city ->
+                            shouldAddCityToUpdatesForDispatch(city)
                         }
 
                     citiesForNotification.forEach { city ->
-                        Timber.d("City to be notified : ${city.cityObjEntity.city_ascii}")
                         displayNotification(applicationContext, city)
                     }
 
+                }
             }
-        } catch (exception : Exception){
+        } catch (exception: Exception) {
             exception.printStackTrace()
             return Result.failure()
         }
@@ -88,15 +84,27 @@ class NotificationWorker @AssistedInject constructor(
         return Result.success()
     }
 
+    private fun shouldAddCityToUpdatesForDispatch(cityWithForecast: CityWithForecast): Boolean {
+        val hoursAsList =
+            cityWithForecast.forecast!!.hourly.map { hourly -> hourly.dt.fromUnixTimestamp() }
+        return hoursAsList.contains(getCurrentHour().timeInMillis)
+    }
+
     private fun displayNotification(context: Context, cityWithForecast: CityWithForecast) {
 
         // Get the particular hour
-        val hour =
-            cityWithForecast.forecast!!.hourly.first { hourly -> hourly.dt.fromUnixTimestamp() == getCurrentHour().timeInMillis }
+        val hour = cityWithForecast.forecast!!.hourly.first { hourly ->
+                hourly.dt.fromUnixTimestamp() == getCurrentHour().timeInMillis
+            }
 
-        val header = cityWithForecast.cityObjEntity.city_ascii + " hourly update"
-        val temperatureAsStringMessage =
-            "Currently at ${hour.temp.toCelsius().trimDecimalThenToString(context)}"
+        val header = context.getString(R.string.city_hourly_update_suffix,
+            cityWithForecast.cityObjEntity.city_ascii
+        )
+
+        val temperatureAsStringMessage = context.getString(R.string.actual_update_text,
+            hour.temp.toCelsius().trimDecimalThenToString(context),
+                    hour.weather.first().description
+        )
 
         // Parse the icon
         val iconId = context.resources.getIdentifier(
@@ -112,12 +120,9 @@ class NotificationWorker @AssistedInject constructor(
             .setContentText(temperatureAsStringMessage)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         with(NotificationManagerCompat.from(context)) {
-            // notificationId is a unique int for each notification that you must define
+            // Display the notification
             notify(cityId, builder.build())
         }
-
-        // Display the notification
-        builder.build()
     }
 
     private fun getCurrentHour(): Calendar {
