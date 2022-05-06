@@ -9,6 +9,7 @@ object Versions {
     const val dataStore = "1.0.0"
     const val ext_junit = "1.1.3"
     const val lifecycle = "2.0.0"
+    const val core = "1.4.0"
     const val activityKtx = "1.3.1"
     const val navigationFragment = "2.3.5"
 
@@ -42,6 +43,7 @@ object Versions {
     const val hilt_version = "2.38.1"
     const val hilt_viewmodel = "1.0.0-alpha03"
     const val hilt_compiler = "1.0.0"
+    const val dagger_hilt_compiler = "2.5.0"
 
     // Network
     const val retrofit = "2.9.0"
@@ -107,6 +109,7 @@ object Libraries {
     const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt_version}"
     const val hiltViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hilt_viewmodel}"
     const val hiltAndroidxCompiler = "androidx.hilt:hilt-compiler:${Versions.hilt_compiler}"
+    //const val daggerHiltCompiler = "com.google.dagger:hilt-compiler:${Versions.dagger_hilt_compiler}"
 
     // Network
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
@@ -128,6 +131,7 @@ object Libraries {
     // Work manager
     const val work = "androidx.work:work-runtime-ktx:${Versions.work}"
     const val hiltWork = "androidx.hilt:hilt-work:${Versions.hilt_compiler}"
+    const val multiProcessWorkManager = "androidx.work:work-multiprocess:${Versions.work}"
 }
 
 object TestLibraries {
@@ -138,6 +142,9 @@ object TestLibraries {
     const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"
     const val ext_test_junit4 = "androidx.test.ext:junit-ktx:${Versions.ext_junit}"
     const val core_testing = "androidx.arch.core:core-testing:${Versions.lifecycle}"
+    const val core = "androidx.test:core:${Versions.core}"
+    const val workmanager_testing = "androidx.work:work-testing:${Versions.work}"
+    const val hilt_android_testing = "com.google.dagger:hilt-android-testing:${Versions.hilt_version}"
 }
 
 
