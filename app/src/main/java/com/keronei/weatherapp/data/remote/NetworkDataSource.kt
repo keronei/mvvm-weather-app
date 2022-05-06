@@ -37,7 +37,7 @@ class NetworkDataSource @Inject constructor(private val apiService: ApiService) 
                     trySend(Resource.Success(cityForeCast))
                 }
                 else -> {
-                    trySend(Resource.Failure(Exception("Failure")))
+                    trySend(Resource.Failure(Exception("Forecast data is null.")))
                 }
             }
         } catch (e: IOException) {
