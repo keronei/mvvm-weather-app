@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 GradleBuildPlugins
+ * Copyright 2022 Keronei Lincoln
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ interface CityDao {
     @Insert(onConflict = REPLACE)
     suspend fun createCity(city: CityObjEntity): Long
 
+    @Transaction
     @Query("SELECT * FROM CityObjEntity ORDER BY identity ASC")
     fun queryAllCities(): Flow<List<CityWithForecast>>
 

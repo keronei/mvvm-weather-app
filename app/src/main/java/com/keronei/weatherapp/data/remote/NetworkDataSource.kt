@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 GradleBuildPlugins
+ * Copyright 2022 Keronei Lincoln
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ class NetworkDataSource @Inject constructor(private val apiService: ApiService) 
                     trySend(Resource.Success(cityForeCast))
                 }
                 else -> {
-                    trySend(Resource.Failure(Exception("Failure")))
+                    trySend(Resource.Failure(Exception("Forecast data is null.")))
                 }
             }
         } catch (e: IOException) {

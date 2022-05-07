@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 GradleBuildPlugins
+ * Copyright 2022 Keronei Lincoln
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,9 @@ import com.keronei.weatherapp.data.local.CityDao
 import com.keronei.weatherapp.data.local.ForecastDao
 import com.keronei.weatherapp.data.remote.NetworkDataSource
 import com.keronei.weatherapp.domain.CitiesRepository
-import com.keronei.weatherapp.domain.CitiesRepositoryImpl
+import com.keronei.weatherapp.data.local.CitiesRepositoryImpl
 import com.keronei.weatherapp.domain.ForecastRepository
-import com.keronei.weatherapp.domain.ForecastRepositoryImpl
+import com.keronei.weatherapp.data.ForecastRepositoryImpl
 import com.keronei.weatherapp.utils.ConnectivityProvider
 import dagger.Module
 import dagger.Provides

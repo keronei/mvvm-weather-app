@@ -1,12 +1,27 @@
+/*
+ * Copyright 2022 Keronei Lincoln
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.keronei.weatherapp.core.worker
-
 
 import android.content.Context
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.hilt.work.HiltWorker
-import androidx.work.Worker
+import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.keronei.weatherapp.R
 import com.keronei.weatherapp.application.Constants.NOTIFICATION_CHANNEL_ID
 import com.keronei.weatherapp.data.model.CityWithForecast
 import com.keronei.weatherapp.domain.CitiesRepository
@@ -15,60 +30,84 @@ import com.keronei.weatherapp.utils.toCelsius
 import com.keronei.weatherapp.utils.trimDecimalThenToString
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withContext
 import java.util.*
 
 @HiltWorker
 class NotificationWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
-    private val citiesRepository: CitiesRepository,
-    private val coroutineScope: CoroutineScope
-) : Worker(context, params) {
-    override fun doWork(): Result {
+    private val citiesRepository: CitiesRepository
+) : CoroutineWorker(context, params) {
+    override suspend fun doWork(): Result {
         /**
          * Query all favourite cities
          * Check if there's data for current hour
          * Check is there's alerts to be displayed.
          */
 
-        coroutineScope.launch {
-            citiesRepository.queryFavouritedCities().collect { favourited ->
-                /**
-                 * Get all favourited AND with data
-                 */
-                val favoritedCities =
-                    favourited.filter { cityWithForecast -> cityWithForecast.forecast != null }
+        try {
+            val favourites = citiesRepository.queryFavouritedCities().first()
 
-                if (favoritedCities.isNotEmpty()) {
-                    val citiesForNotification =
-                        favoritedCities.filter { city -> city.forecast!!.hourly.all { hourly -> hourly.dt.fromUnixTimestamp() == getCurrentHour().timeInMillis } }
+            /**
+             * Get all favourites AND with data
+             */
+            val favoriteCities =
+                favourites.filter { cityWithForecast -> cityWithForecast.forecast != null }
 
-                    citiesForNotification.forEach { city ->
-                        displayNotification(applicationContext, city)
-                    }
+            if (favoriteCities.isEmpty()) {
+                return Result.failure()
+            }
+
+            val citiesForNotification =
+                favoriteCities.filter { city ->
+                    shouldAddCityToUpdatesForDispatch(city)
+                }
+            if (citiesForNotification.isEmpty()) {
+                return Result.failure()
+            }
+
+            citiesForNotification.forEach { city ->
+                withContext(Dispatchers.Main) {
+                    displayNotification(applicationContext, city)
                 }
             }
+            /**
+             * The assumption is that the notification would be handled by the system.
+             */
+
+            return Result.success()
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+            return Result.failure()
         }
+    }
 
-
-        /**
-         * The assumption is that the notification would be handled by the system.
-         */
-        return Result.success()
+    private fun shouldAddCityToUpdatesForDispatch(cityWithForecast: CityWithForecast): Boolean {
+        val hoursAsList =
+            cityWithForecast.forecast!!.hourly.map { hourly -> hourly.dt.fromUnixTimestamp() }
+        return hoursAsList.contains(getCurrentHour().timeInMillis)
     }
 
     private fun displayNotification(context: Context, cityWithForecast: CityWithForecast) {
 
         // Get the particular hour
-        val hour =
-            cityWithForecast.forecast!!.hourly.first { hourly -> hourly.dt.fromUnixTimestamp() == getCurrentHour().timeInMillis }
+        val hour = cityWithForecast.forecast!!.hourly.first { hourly ->
+            hourly.dt.fromUnixTimestamp() == getCurrentHour().timeInMillis
+        }
 
-        val header = cityWithForecast.cityObjEntity.city_ascii + " hourly update"
-        val temperatureAsStringMessage =
-            "Currently at ${hour.temp.toCelsius().trimDecimalThenToString(context)}"
+        val header = context.getString(
+            R.string.city_hourly_update_suffix,
+            cityWithForecast.cityObjEntity.city_ascii
+        )
+
+        val temperatureAsStringMessage = context.getString(
+            R.string.actual_update_text,
+            hour.temp.toCelsius().trimDecimalThenToString(context),
+            hour.weather.first().description.replaceFirstChar { letter -> letter.uppercase() }
+        )
 
         // Parse the icon
         val iconId = context.resources.getIdentifier(
@@ -84,12 +123,9 @@ class NotificationWorker @AssistedInject constructor(
             .setContentText(temperatureAsStringMessage)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         with(NotificationManagerCompat.from(context)) {
-            // notificationId is a unique int for each notification that you must define
+            // Display the notification
             notify(cityId, builder.build())
         }
-
-        // Display the notification
-        builder.build()
     }
 
     private fun getCurrentHour(): Calendar {
@@ -99,5 +135,4 @@ class NotificationWorker @AssistedInject constructor(
         currentHour.set(Calendar.MINUTE, 0)
         return currentHour
     }
-
 }

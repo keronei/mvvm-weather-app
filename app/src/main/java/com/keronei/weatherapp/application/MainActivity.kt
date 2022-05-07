@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 GradleBuildPlugins
+ * Copyright 2021 Keronei Lincoln
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.keronei.weatherapp.R
 import com.keronei.weatherapp.databinding.ActivityMainBinding
+import com.keronei.weatherapp.ui.workerlifecycle.WorkerUptime
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -38,11 +39,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         activityMainViewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainViewBinding.root)
-
         createNotificationChannel()
+        lifecycle.addObserver(WorkerUptime(applicationContext))
     }
 
-    private fun createNotificationChannel(){
+    private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = this.getString(R.string.channel_name)
             val descriptionText = this.getString(R.string.channel_description)
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             }
             // Register the channel with the system
             val notificationManager: NotificationManager =
-                getSystemService( Context.NOTIFICATION_SERVICE) as NotificationManager
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
     }
